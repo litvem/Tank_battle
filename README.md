@@ -18,10 +18,10 @@ Last but not least, playing **TankBattle** will allow users to experience excite
 
 ## How are we going to make it?
 
-To allow players control the tanks, an Android application will be developed using **XML**, **Kotlin**, **CSS** in Android Studio.
+To allow players control the tanks, an Android application will be developed using **Kotlin** in Android Studio.
 
-The connection between the Android app and Arduino tank will be handled by a server created using **Java** or **Kotlin**.
+The connection between the Android app and Arduino tank will be handled by a MQTT protocol created using **Java** or **Kotlin**.
 
 **C++** is intended to be used for behaviour modification of the tank. The combination of gyroscope and ultrasonic sensor feedback will be used for calculation of the damage received.
 
-**Emulator SMCE GoDot** will handle physics and environment of the game. Also **GoDot** will be used to create a new landscape/game mode.
+**Emulator SMCE Godot** will handle physics and environment of the game. Also **Godot** will be used to create a new landscape/game mode.
