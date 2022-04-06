@@ -28,7 +28,7 @@ void loop()
 {
   const auto distance = front.getDistance();
   // When distance is `0` it means there's no obstacle detected
-  if (distance > 0 && distance < 1000) {
+  if (distance > 0 && distance < 100) {
 
     car.setSpeed(bSpeed);
     delay(1500);
