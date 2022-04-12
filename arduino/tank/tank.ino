@@ -46,6 +46,10 @@ void handleInput()
             car.setSpeed(bSpeed);
             car.setAngle(currentDegrees);
             break;
+        case 'c': //go straight
+            currentDegrees = 0;
+            car.setAngle(currentDegrees);
+            break;
         default: // if you receive something that you don't know, just stop
             car.setSpeed(0);
             car.setAngle(currentDegrees);
