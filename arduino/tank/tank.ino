@@ -21,8 +21,7 @@ const int shootyPin = 250; //The emulator already have the shooting implemented 
 unsigned long lastShotTime = 0;
 const unsigned long SHOOT_RESET = 100;
 
-unsigned long lastShotTime2 = 0;
-unsigned long test = millis();
+unsigned long currentTime = millis();
 
 ArduinoRuntime arduinoRuntime;
 BrushedMotor leftMotor(arduinoRuntime, smartcarlib::pins::v2::leftMotorPins);
@@ -61,21 +60,59 @@ void setup()
   mqtt.onMessage([](String topic, String message) {
     if (topic == "/tnk/cmd/atk") {
       digitalWrite(shootyPin, HIGH);
-      lastShotTime2 = test;
+      lastShotTime = currentTime;
       //delay(500);
       //digitalWrite(shootyPin, LOW);
+    } else if (topic == "/tnk/cmd/dir") {
+      
+      if (message == "N") { //Move forward
+        car.setSpeed(fSpeed);
+        car.setAngle(0);
+        
+      } else if (message == "S") { //Move backwards
+        car.setSpeed(bSpeed);
+        car.setAngle(0);
+        
+      } else if (message == "W") { //Turn left
+        car.setSpeed(fSpeed);
+        car.setAngle(-90);
+        
+      } else if (message == "E") { //Turn right
+        car.setSpeed(fSpeed);
+        car.setAngle(90);
+        
+      } else if (message == "NW") { //Turn left with 45 degrees moving forward
+        car.setSpeed(fSpeed);
+        car.setAngle(-45);
+        
+      } else if (message == "NE") { //Turn right with 45 degrees moving forward
+        car.setSpeed(fSpeed);
+        car.setAngle(45);
+        
+      } else if (message == "SW") { //Turn left with 45 degrees moving backwards
+        car.setSpeed(bSpeed);
+        car.setAngle(45);
+        
+      } else if (message == "SE") { //Turn right with 45 degrees moving backwards
+        car.setSpeed(bSpeed);
+        car.setAngle(-45);
+        
+      } else if (message == "X") { //Stop
+        car.setSpeed(0);
+        car.setAngle(0);
+      }
     }
   });
 }
 
 void loop()
 {
-  test = millis();
+  currentTime = millis();
   if (mqtt.connected()) {
     mqtt.loop();
   }
 
-  if ( test == lastShotTime2 + SHOOT_RESET) {
+  if ( currentTime == lastShotTime + SHOOT_RESET) { //If the pin is set to low immediatly after it was set to high, the tank won't shoot.
     digitalWrite(shootyPin, LOW);
   }
   handleInput();
@@ -84,10 +121,6 @@ void loop()
 void handleInput()
 { // handle serial input if there is any
 
-  unsigned long currentTime = millis();
-  if (currentTime == lastShotTime + SHOOT_RESET) {  //If the pin is set to low immediatly after it was set to high, the tank won't shoot.
-    digitalWrite(shootyPin, LOW);
-  }
   if (Serial.available())
   {
     char input = Serial.read(); // read everything that has been received so far and log down
@@ -113,11 +146,6 @@ void handleInput()
       case 'c': //go straight
         currentDegrees = 0;
         car.setAngle(currentDegrees);
-        break;
-        break;
-      case 's': //shoot
-        digitalWrite(shootyPin, HIGH);
-        lastShotTime = currentTime;
         break;
       default: // if you receive something that you don't know, just stop
         car.setSpeed(0);
