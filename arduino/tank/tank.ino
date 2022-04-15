@@ -1,6 +1,10 @@
+#include <vector>
+
 #include <Smartcar.h>
 #include <WiFi.h>
 #include <MQTT.h>
+#include <OV767X.h>
+
 
 MQTTClient mqtt;
 WiFiClient net;
@@ -30,9 +34,14 @@ DifferentialControl control(leftMotor, rightMotor);
 
 SimpleCar car(control);
 
+std::vector<char> frameBuffer;
+
 void setup()
 {
   Serial.begin(9600);
+
+  Camera.begin(QVGA, RGB888, 15);
+  frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
 
   pinMode(shootyPin, OUTPUT);
 
@@ -107,9 +116,17 @@ void setup()
 
 void loop()
 {
-  currentTime = millis();
+  
   if (mqtt.connected()) {
     mqtt.loop();
+    currentTime = millis();
+    static auto previousFrame = 0UL;
+    if (currentTime - previousFrame >= 65) {
+      previousFrame = currentTime;
+      Camera.readFrame(frameBuffer.data());
+      mqtt.publish("/tnk/vid", frameBuffer.data(), frameBuffer.size(),
+                   false, 0);
+    }
   }
 
   if ( currentTime == lastShotTime + SHOOT_RESET) { //If the pin is set to low immediatly after it was set to high, the tank won't shoot.
