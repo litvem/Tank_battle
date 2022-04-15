@@ -1,9 +1,13 @@
-#include <vector>
+
 
 #include <Smartcar.h>
 #include <WiFi.h>
 #include <MQTT.h>
+
+#ifdef __SMCE__
+#include <vector>
 #include <OV767X.h>
+#endif
 
 
 MQTTClient mqtt;
@@ -34,14 +38,18 @@ DifferentialControl control(leftMotor, rightMotor);
 
 SimpleCar car(control);
 
+#ifdef __SMCE__
 std::vector<char> frameBuffer;
+#endif
 
 void setup()
 {
   Serial.begin(9600);
 
+#ifdef __SMCE__
   Camera.begin(QVGA, RGB888, 15);
   frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
+#endif
 
   pinMode(shootyPin, OUTPUT);
 
@@ -73,39 +81,39 @@ void setup()
       //delay(500);
       //digitalWrite(shootyPin, LOW);
     } else if (topic == "/tnk/cmd/dir") {
-      
+
       if (message == "N") { //Move forward
         car.setSpeed(fSpeed);
         car.setAngle(0);
-        
+
       } else if (message == "S") { //Move backwards
         car.setSpeed(bSpeed);
         car.setAngle(0);
-        
+
       } else if (message == "W") { //Turn left
         car.setSpeed(fSpeed);
         car.setAngle(-90);
-        
+
       } else if (message == "E") { //Turn right
         car.setSpeed(fSpeed);
         car.setAngle(90);
-        
+
       } else if (message == "NW") { //Turn left with 45 degrees moving forward
         car.setSpeed(fSpeed);
         car.setAngle(-45);
-        
+
       } else if (message == "NE") { //Turn right with 45 degrees moving forward
         car.setSpeed(fSpeed);
         car.setAngle(45);
-        
+
       } else if (message == "SW") { //Turn left with 45 degrees moving backwards
         car.setSpeed(bSpeed);
         car.setAngle(45);
-        
+
       } else if (message == "SE") { //Turn right with 45 degrees moving backwards
         car.setSpeed(bSpeed);
         car.setAngle(-45);
-        
+
       } else if (message == "X") { //Stop
         car.setSpeed(0);
         car.setAngle(0);
@@ -116,10 +124,12 @@ void setup()
 
 void loop()
 {
-  
+
   if (mqtt.connected()) {
     mqtt.loop();
     currentTime = millis();
+
+#ifdef __SMCE__
     static auto previousFrame = 0UL;
     if (currentTime - previousFrame >= 65) {
       previousFrame = currentTime;
@@ -127,6 +137,8 @@ void loop()
       mqtt.publish("/tnk/vid", frameBuffer.data(), frameBuffer.size(),
                    false, 0);
     }
+#endif
+
   }
 
   if ( currentTime == lastShotTime + SHOOT_RESET) { //If the pin is set to low immediatly after it was set to high, the tank won't shoot.
