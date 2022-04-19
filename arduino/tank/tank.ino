@@ -1,4 +1,4 @@
-
+ 
 
 #include <Smartcar.h>
 #include <WiFi.h>
@@ -17,6 +17,12 @@ const char ssid[] = "";
 const char pass[] = "";
 
 const auto mqttBrokerUrl = "127.0.0.1";
+
+const int straight = 0;
+const int fullRight = 90;
+const int fullLeft = -90;
+const int right = 45;
+const int left = -45;
 
 const int fSpeed   = 70;  // 70% of the full speed forward
 const int bSpeed   = -70; // 70% of the full speed backward
@@ -84,35 +90,35 @@ void setup()
 
       if (message == "N") { //Move forward
         car.setSpeed(fSpeed);
-        car.setAngle(0);
+        car.setAngle(straight);
 
       } else if (message == "S") { //Move backwards
         car.setSpeed(bSpeed);
-        car.setAngle(0);
+        car.setAngle(straight);
 
       } else if (message == "W") { //Turn left
         car.setSpeed(fSpeed);
-        car.setAngle(-90);
+        car.setAngle(fullLeft);
 
       } else if (message == "E") { //Turn right
         car.setSpeed(fSpeed);
-        car.setAngle(90);
+        car.setAngle(fullRight);
 
       } else if (message == "NW") { //Turn left with 45 degrees moving forward
         car.setSpeed(fSpeed);
-        car.setAngle(-45);
+        car.setAngle(left);
 
       } else if (message == "NE") { //Turn right with 45 degrees moving forward
         car.setSpeed(fSpeed);
-        car.setAngle(45);
+        car.setAngle(right);
 
       } else if (message == "SW") { //Turn left with 45 degrees moving backwards
         car.setSpeed(bSpeed);
-        car.setAngle(45);
+        car.setAngle(left);
 
       } else if (message == "SE") { //Turn right with 45 degrees moving backwards
         car.setSpeed(bSpeed);
-        car.setAngle(-45);
+        car.setAngle(right);
 
       } else if (message == "X") { //Stop
         car.setSpeed(0);
