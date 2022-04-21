@@ -68,3 +68,11 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+## Java Stuff
+
+# VS Code
+.vscode
+
+# Maven
+*/target/**
