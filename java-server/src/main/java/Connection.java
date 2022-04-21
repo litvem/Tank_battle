@@ -2,8 +2,8 @@
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-// MqttPublisher for publishing messages to MQTT broker
-public class MqttPublisher {
+// Connection for managing the MQTT broker
+public class Connection {
 	// Main method for testing publish from Java server
 	public static void main(String[] args) {
 		try {
