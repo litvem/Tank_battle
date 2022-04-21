@@ -1,4 +1,4 @@
- 
+
 
 #include <Smartcar.h>
 #include <WiFi.h>
@@ -24,7 +24,7 @@ const int fullLeft = -90;
 const int right = 45;
 const int left = -45;
 
-const int fSpeed   = 70;  // 70% of the full speed forward
+const int maxSpeed   = 70;  // 70% of the full speed forward
 const int bSpeed   = -70; // 70% of the full speed backward
 const int incrementalDegrees = 5; // degrees to turn
 int currentDegrees = 0;
@@ -87,43 +87,9 @@ void setup()
       //delay(500);
       //digitalWrite(shootyPin, LOW);
     } else if (topic == "/tnk/cmd/dir") {
-
-      if (message == "N") { //Move forward
-        car.setSpeed(fSpeed);
-        car.setAngle(straight);
-
-      } else if (message == "S") { //Move backwards
-        car.setSpeed(bSpeed);
-        car.setAngle(straight);
-
-      } else if (message == "W") { //Turn left
-        car.setSpeed(fSpeed);
-        car.setAngle(fullLeft);
-
-      } else if (message == "E") { //Turn right
-        car.setSpeed(fSpeed);
-        car.setAngle(fullRight);
-
-      } else if (message == "NW") { //Turn left with 45 degrees moving forward
-        car.setSpeed(fSpeed);
-        car.setAngle(left);
-
-      } else if (message == "NE") { //Turn right with 45 degrees moving forward
-        car.setSpeed(fSpeed);
-        car.setAngle(right);
-
-      } else if (message == "SW") { //Turn left with 45 degrees moving backwards
-        car.setSpeed(bSpeed);
-        car.setAngle(left);
-
-      } else if (message == "SE") { //Turn right with 45 degrees moving backwards
-        car.setSpeed(bSpeed);
-        car.setAngle(right);
-
-      } else if (message == "X") { //Stop
-        car.setSpeed(0);
-        car.setAngle(0);
-      }
+      setDirection(message);
+    } else if (topic == "/tnk/cmd/spd") {
+      setSpeed(message);
     }
   });
 }
@@ -171,7 +137,7 @@ void handleInput()
         car.setAngle(currentDegrees);
         break;
       case 'f': // go ahead
-        car.setSpeed(fSpeed);
+        car.setSpeed(maxSpeed);
         car.setAngle(currentDegrees);
         break;
       case 'b': // go back
@@ -186,5 +152,30 @@ void handleInput()
         car.setSpeed(0);
         car.setAngle(currentDegrees);
     }
+  }
+}
+
+void setSpeed(String message)
+{
+  float speed = message.toFloat() * maxSpeed;
+  car.setSpeed(round(speed));
+}
+
+void setDirection(String message)
+{
+  if (message == "N" || message == "S") { //Move straight
+    car.setAngle(straight);
+
+  } else if (message == "W") { //Turn left with 90 degrees
+    car.setAngle(fullLeft);
+
+  } else if (message == "E") { //Turn right with 90 degrees
+    car.setAngle(fullRight);
+
+  } else if (message == "NW" || message == "SW") { //Turn left with 45 degrees
+    car.setAngle(left);
+
+  } else if (message == "NE" || message == "SE") { //Turn right with 45 degrees
+    car.setAngle(right);
   }
 }
