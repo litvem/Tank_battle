@@ -35,7 +35,11 @@ const int shootyPin = 250; //The emulator already have the shooting implemented 
 unsigned long lastShotTime = 0;
 const unsigned long SHOOT_RESET = 100;
 
-
+unsigned long prevGyroscopeMeasurement = 0; //Saves the last gyroscope's measurement time
+int gyroscopeTimeInterval = 4; //Time interval between gyroscope's measurement
+int currentHeading;
+int previousHeading;
+int gyLimit = 3; //The minimum variation between two measurements that will be interpreted as an impact
 
 unsigned long currentTime = millis();
 
@@ -89,16 +93,21 @@ void setup()
     if (topic == "/tnk/cmd/atk") {
       digitalWrite(shootyPin, HIGH);
       lastShotTime = currentTime;
-      
+
     } else if (topic == "/tnk/cmd/dir") {
       setDirection(message);
-      
+
     } else if (topic == "/tnk/cmd/spd") {
       setSpeed(message);
     }
   });
 
-  
+  //Initialize both heading related variables
+  gyro.update();
+  previousHeading = gyro.getHeading();
+  currentHeading = previousHeading;
+  Serial.println(currentHeading);
+
 }
 
 void loop()
@@ -123,9 +132,22 @@ void loop()
   if ( currentTime == lastShotTime + SHOOT_RESET) { //If the pin is set to low immediatly after it was set to high, the tank won't shoot.
     digitalWrite(shootyPin, LOW);
   }
+
+  if (currentTime - prevGyroscopeMeasurement >= gyroscopeTimeInterval) {
+    gyro.update();
+    currentHeading = gyro.getHeading();
+
+    int diff = abs(currentHeading - previousHeading);
+
+    if (diff > gyLimit) {
+      Serial.println(diff);
+      Serial.println("Hey!");
+    }
+    previousHeading = currentHeading;
+    prevGyroscopeMeasurement = currentTime;
+  }
+
   handleInput();
-  gyro.update();
-  Serial.println(gyro.getHeading());
 }
 
 void handleInput()
