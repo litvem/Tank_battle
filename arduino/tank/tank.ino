@@ -133,13 +133,14 @@ void loop()
     digitalWrite(shootyPin, LOW);
   }
 
-  if (currentTime - prevGyroscopeMeasurement >= gyroscopeTimeInterval) {
+  if (currentTime - prevGyroscopeMeasurement > gyroscopeTimeInterval) {
     gyro.update();
     currentHeading = gyro.getHeading();
 
     int diff = abs(currentHeading - previousHeading);
 
-    if (diff > gyLimit) {
+    //Checks if the limit was reached and filters the case which the tank completes a normal full rotation
+    if (diff > gyLimit && (360 - diff > gyLimit)) { 
       Serial.println(diff);
       Serial.println("Hey!");
     }
