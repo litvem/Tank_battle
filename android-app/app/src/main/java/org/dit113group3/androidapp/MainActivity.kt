@@ -1,13 +1,17 @@
 package org.dit113group3.androidapp
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.joystickjhr.JoystickJhr
 import org.eclipse.paho.client.mqttv3.IMqttActionListener
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.IMqttToken
@@ -19,12 +23,31 @@ class MainActivity : AppCompatActivity() {
     private var mMqttClient: MqttClient? = null
     private var isConnected = false
     private var mCameraView: ImageView? = null
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+
+        var exit = findViewById<ImageButton>(R.id.exit)
+        var shoot = findViewById<Button>(R.id.shoot)
+
+        var joystickJhr = findViewById<JoystickJhr>(R.id.joystickMove)
+        joystickJhr.setOnTouchListener { view, motionEvent ->
+            joystickJhr.move(motionEvent)
+            joystickJhr.angle()
+            joystickJhr.distancia()
+
+            true
+        }
+
         mMqttClient = MqttClient(applicationContext, MQTT_SERVER, TAG)
         mCameraView = findViewById(R.id.imageView)
         connectToMqttBroker()
+
+
     }
 
     override fun onResume() {
