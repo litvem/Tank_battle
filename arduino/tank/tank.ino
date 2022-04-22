@@ -35,6 +35,8 @@ const int shootyPin = 250; //The emulator already have the shooting implemented 
 unsigned long lastShotTime = 0;
 const unsigned long SHOOT_RESET = 100;
 
+
+
 unsigned long currentTime = millis();
 
 ArduinoRuntime arduinoRuntime;
@@ -43,6 +45,9 @@ BrushedMotor rightMotor(arduinoRuntime, smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control(leftMotor, rightMotor);
 
 SimpleCar car(control);
+
+const int GYROSCOPE_OFFSET = 37;
+GY50 gyro(arduinoRuntime, GYROSCOPE_OFFSET);
 
 #ifdef __SMCE__
 std::vector<char> frameBuffer;
@@ -84,14 +89,16 @@ void setup()
     if (topic == "/tnk/cmd/atk") {
       digitalWrite(shootyPin, HIGH);
       lastShotTime = currentTime;
-      //delay(500);
-      //digitalWrite(shootyPin, LOW);
+      
     } else if (topic == "/tnk/cmd/dir") {
       setDirection(message);
+      
     } else if (topic == "/tnk/cmd/spd") {
       setSpeed(message);
     }
   });
+
+  
 }
 
 void loop()
@@ -117,6 +124,8 @@ void loop()
     digitalWrite(shootyPin, LOW);
   }
   handleInput();
+  gyro.update();
+  Serial.println(gyro.getHeading());
 }
 
 void handleInput()
