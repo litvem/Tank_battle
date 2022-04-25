@@ -143,6 +143,7 @@ void loop()
     if (diff > gyLimit && (360 - diff > gyLimit)) { 
       Serial.println("Impact detected");
       Serial.println(diff);
+      mqtt.publish("/tnk/dmg", "1");
     }
     previousHeading = currentHeading;
     prevGyroscopeMeasurement = currentTime;
