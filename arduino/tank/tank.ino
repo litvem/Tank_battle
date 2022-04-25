@@ -36,10 +36,10 @@ unsigned long lastShotTime = 0;
 const unsigned long SHOOT_RESET = 100;
 
 unsigned long prevGyroscopeMeasurement = 0; //Saves the last gyroscope's measurement time
-int gyroscopeTimeInterval = 4; //Time interval between gyroscope's measurement
+int gyroscopeTimeInterval = 50; //Time interval between gyroscope's measurement
 int currentHeading;
 int previousHeading;
-int gyLimit = 3; //The minimum variation between two measurements that will be interpreted as an impact
+int gyLimit = 10; //The minimum variation between two measurements that will be interpreted as an impact
 
 unsigned long currentTime = millis();
 
@@ -141,8 +141,8 @@ void loop()
 
     //Checks if the limit was reached and filters the case which the tank completes a normal full rotation
     if (diff > gyLimit && (360 - diff > gyLimit)) { 
+      Serial.println("Impact detected");
       Serial.println(diff);
-      Serial.println("Hey!");
     }
     previousHeading = currentHeading;
     prevGyroscopeMeasurement = currentTime;
