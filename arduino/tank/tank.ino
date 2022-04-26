@@ -35,6 +35,12 @@ const int shootyPin = 250; //The emulator already have the shooting implemented 
 unsigned long lastShotTime = 0;
 const unsigned long SHOOT_RESET = 100;
 
+unsigned long prevGyroscopeMeasurement = 0; //Saves the last gyroscope's measurement time
+int gyroscopeTimeInterval = 50; //Time interval between gyroscope's measurement
+int currentHeading;
+int previousHeading;
+int gyLimit = 10; //The minimum variation between two measurements that will be interpreted as an impact
+
 unsigned long currentTime = millis();
 
 ArduinoRuntime arduinoRuntime;
@@ -43,6 +49,9 @@ BrushedMotor rightMotor(arduinoRuntime, smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control(leftMotor, rightMotor);
 
 SimpleCar car(control);
+
+const int GYROSCOPE_OFFSET = 37;
+GY50 gyro(arduinoRuntime, GYROSCOPE_OFFSET);
 
 #ifdef __SMCE__
 std::vector<char> frameBuffer;
@@ -84,14 +93,21 @@ void setup()
     if (topic == "/tnk/cmd/atk") {
       digitalWrite(shootyPin, HIGH);
       lastShotTime = currentTime;
-      //delay(500);
-      //digitalWrite(shootyPin, LOW);
+
     } else if (topic == "/tnk/cmd/dir") {
       setDirection(message);
+
     } else if (topic == "/tnk/cmd/spd") {
       setSpeed(message);
     }
   });
+
+  //Initialize both heading related variables
+  gyro.update();
+  previousHeading = gyro.getHeading();
+  currentHeading = previousHeading;
+  Serial.println(currentHeading);
+
 }
 
 void loop()
@@ -116,6 +132,23 @@ void loop()
   if ( currentTime == lastShotTime + SHOOT_RESET) { //If the pin is set to low immediatly after it was set to high, the tank won't shoot.
     digitalWrite(shootyPin, LOW);
   }
+
+  if (currentTime - prevGyroscopeMeasurement > gyroscopeTimeInterval) {
+    gyro.update();
+    currentHeading = gyro.getHeading();
+
+    int diff = abs(currentHeading - previousHeading);
+
+    //Checks if the limit was reached and filters the case which the tank completes a normal full rotation
+    if (diff > gyLimit && (360 - diff > gyLimit)) { 
+      Serial.println("Impact detected");
+      Serial.println(diff);
+      mqtt.publish("/tnk/dmg", "damage report");
+    }
+    previousHeading = currentHeading;
+    prevGyroscopeMeasurement = currentTime;
+  }
+
   handleInput();
 }
 
