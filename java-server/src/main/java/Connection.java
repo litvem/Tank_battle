@@ -1,41 +1,39 @@
 // Imports
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 
 // Connection for managing the MQTT broker
 public class Connection implements MqttCallback {
-	/**  
-	*
-	*	Placeholder
-	*
-	*/
 
 	private static final String DEFAULT_CLIENT_ID = "ID1";
 	private static final String LOCAL_HOST = "tcp://localhost:1883";
-	private static final String[] MQTT_TOPICS = {
-		"/tnk/mes/gyro",
-		"/tnk/cmd/atk"
-	};
+	private static final String MQTT_TOPIC = "/tnk/dmg";
+	private static MqttClient client;
+	private static Tank tank;
+	private static MemoryPersistence persistance = new MemoryPersistence();
 
-	private MqttClient client;
-
-	private MemoryPersistence persistance = new MemoryPersistence();
-
-	public Connection() throws Exception {
-		this.client = new MqttClient(LOCAL_HOST, DEFAULT_CLIENT_ID, persistance);
+	public void publish(String topic, MqttMessage message) {
+		try{
+			client.publish(topic, message);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	// Placeholder publish method
-	public void publish() {
-		
+	public void subscribe(MqttClient client) throws Exception {
+		Connection connection = new Connection();
+//		MqttClient client = connection.getClient();
+		client.setCallback(connection);
+		client.connect();
+		client.subscribe(MQTT_TOPIC);
 	}
 
-	// Placeholder subscribe method
-	public void subscribe() {
-
+	public void unsubscribe(MqttClient client) {
+		try{
+			client.unsubscribe(MQTT_TOPIC);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public MqttClient getClient() {
@@ -43,37 +41,36 @@ public class Connection implements MqttCallback {
 	}
 
 	@Override
-    public void connectionLost(Throwable throwable) {
-        System.out.println("Connection to the MQTT broker lost!");
-    }
+	public void connectionLost(Throwable throwable) {
+		System.out.println("Connection to the MQTT broker lost!");
+	}
 
-    @Override
-    public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
-        String message = new String(mqttMessage.getPayload());
-        System.out.println("Received!\n" + message);
-    }
+	@Override
+	public void messageArrived(String s, MqttMessage mqttMessage) {
+		try {
+			tank.takeDamage();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-        //currently not used
-    }
+	@Override
+	public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+		// not used
+	}
 
 	// Main method for testing from Java server
 	public static void main(String[] args) {
-		
 		try {
+			client = new MqttClient(LOCAL_HOST, DEFAULT_CLIENT_ID, persistance);
 			Connection connection = new Connection();
-			MqttClient client = connection.getClient();
-			client.setCallback(connection);
-			client.connect();
-			client.subscribe(MQTT_TOPICS[1]);
-			MqttMessage message = new MqttMessage();
-			message.setPayload("Java Server: Health 100".getBytes());
-			client.publish(MQTT_TOPICS[1], message);
-			client.disconnect();
-			client.close();
+			connection.subscribe(client);
+			tank = new Tank(client);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
+
+
 }
+
