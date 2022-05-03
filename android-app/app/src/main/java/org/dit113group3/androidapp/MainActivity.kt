@@ -16,6 +16,7 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.IMqttToken
 import org.eclipse.paho.client.mqttv3.MqttCallback
 import org.eclipse.paho.client.mqttv3.MqttMessage
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +34,14 @@ class MainActivity : AppCompatActivity() {
         connectToMqttBroker()
 
         var exit = findViewById<ImageButton>(R.id.exit)
+        exit.setOnClickListener {
+            mMqttClient!!.publish("/$PREFIX/status/elim", "", QOS, null)
+
+            // TODO: display main menu when it's ready
+            finish()
+            exitProcess(0)
+        }
+
         var shoot = findViewById<Button>(R.id.shoot)
 
         var joystickJhr = findViewById<JoystickJhr>(R.id.joystickMove)
