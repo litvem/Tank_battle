@@ -43,6 +43,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         var shoot = findViewById<Button>(R.id.shoot)
+        shoot.setOnClickListener {
+            mMqttClient!!.publish("/$PREFIX/cmd/atk", "", QOS, null)
+
+            // TODO: add an internal timer that matches the shoot command cooldown on the tank
+            // TODO: add a visual representation of said timer in for of either displaying the remaining time in the cooldown or through a gauge
+        }
 
         var joystickJhr = findViewById<JoystickJhr>(R.id.joystickMove)
         joystickJhr.setOnTouchListener { view, motionEvent ->
