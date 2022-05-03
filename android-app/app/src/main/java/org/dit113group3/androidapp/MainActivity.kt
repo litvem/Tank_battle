@@ -16,7 +16,6 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.IMqttToken
 import org.eclipse.paho.client.mqttv3.MqttCallback
 import org.eclipse.paho.client.mqttv3.MqttMessage
-import java.lang.StringBuilder
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +28,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+        mMqttClient = MqttClient(applicationContext, MQTT_SERVER, TAG)
+        mCameraView = findViewById(R.id.imageView)
+        connectToMqttBroker()
 
         var exit = findViewById<ImageButton>(R.id.exit)
         var shoot = findViewById<Button>(R.id.shoot)
@@ -37,21 +38,10 @@ class MainActivity : AppCompatActivity() {
         var joystickJhr = findViewById<JoystickJhr>(R.id.joystickMove)
         joystickJhr.setOnTouchListener { view, motionEvent ->
             joystickJhr.move(motionEvent)
-            println(joystickJhr.angle())
-
-            // Fraction of full distance from the origin of the joystick
-            println(joystickJhr.distancia() / (joystickJhr.height / 2f))
-
             drive(joystickJhr.distancia(), joystickJhr.angle())
 
             true
         }
-
-        mMqttClient = MqttClient(applicationContext, MQTT_SERVER, TAG)
-        mCameraView = findViewById(R.id.imageView)
-        connectToMqttBroker()
-
-
     }
 
     override fun onResume() {
