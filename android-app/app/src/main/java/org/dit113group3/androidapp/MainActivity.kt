@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.joystickjhr.JoystickJhr
 import org.eclipse.paho.client.mqttv3.IMqttActionListener
@@ -35,11 +36,22 @@ class MainActivity : AppCompatActivity() {
 
         var exit = findViewById<ImageButton>(R.id.exit)
         exit.setOnClickListener {
-            mMqttClient!!.publish("/$PREFIX/status/elim", "", QOS, null)
-
             // TODO: display main menu when it's ready
-            finish()
-            exitProcess(0)
+            val eBuilder = AlertDialog.Builder(this)
+            eBuilder.setTitle("Exit")
+            eBuilder.setIcon(R.drawable.ic_action_name)
+            eBuilder.setMessage("Are you sure you want to Exit ?")
+            eBuilder.setPositiveButton("EXIT") { Dialog,which->
+                mMqttClient!!.publish("/$PREFIX/status/elim", "", QOS, null)
+                finish()
+                exitProcess(0)
+            }
+
+            eBuilder.setNegativeButton("CANCEL") { Dialog,which->
+            }
+            var createBuild = eBuilder.create()
+            createBuild.show()
+
         }
 
         var shoot = findViewById<Button>(R.id.shoot)
