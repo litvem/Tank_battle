@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.joystickjhr.JoystickJhr
 import org.eclipse.paho.client.mqttv3.IMqttActionListener
@@ -16,6 +17,7 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.IMqttToken
 import org.eclipse.paho.client.mqttv3.MqttCallback
 import org.eclipse.paho.client.mqttv3.MqttMessage
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +35,32 @@ class MainActivity : AppCompatActivity() {
         connectToMqttBroker()
 
         var exit = findViewById<ImageButton>(R.id.exit)
+        exit.setOnClickListener {
+            // TODO: display main menu when it's ready
+            val eBuilder = AlertDialog.Builder(this)
+            eBuilder.setTitle("Exit")
+            eBuilder.setIcon(R.drawable.ic_action_name)
+            eBuilder.setMessage("Are you sure you want to Exit ?")
+            eBuilder.setPositiveButton("EXIT") { Dialog,which->
+                mMqttClient!!.publish("/$PREFIX/status/elim", "", QOS, null)
+                finish()
+                exitProcess(0)
+            }
+
+            eBuilder.setNegativeButton("CANCEL") { Dialog,which->
+            }
+            var createBuild = eBuilder.create()
+            createBuild.show()
+
+        }
+
         var shoot = findViewById<Button>(R.id.shoot)
+        shoot.setOnClickListener {
+            mMqttClient!!.publish("/$PREFIX/cmd/atk", "", QOS, null)
+
+            // TODO: add an internal timer that matches the shoot command cooldown on the tank
+            // TODO: add a visual representation of said timer in for of either displaying the remaining time in the cooldown or through a gauge
+        }
 
         var joystickJhr = findViewById<JoystickJhr>(R.id.joystickMove)
         joystickJhr.setOnTouchListener { view, motionEvent ->
