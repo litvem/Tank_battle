@@ -29,6 +29,7 @@ public class Tank {
 		System.out.println(updatedHealth);						//printing for testing purpose
 		currentHealth.setPayload(updatedHealth.getBytes());
 		connection.publish(MQTT_TOPICS[0], currentHealth);
+
 		if (healthPoints == 0) {
 			System.out.println("Tank destroyed, GAME OVER!");	//printing for testing purpose
 			connection.unsubscribe(client);

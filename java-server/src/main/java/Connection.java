@@ -22,7 +22,6 @@ public class Connection implements MqttCallback {
 
 	public void subscribe(MqttClient client) throws Exception {
 		Connection connection = new Connection();
-//		MqttClient client = connection.getClient();
 		client.setCallback(connection);
 		client.connect();
 		client.subscribe(MQTT_TOPIC);
@@ -59,7 +58,7 @@ public class Connection implements MqttCallback {
 		// not used
 	}
 
-	// Main method for testing from Java server
+//	 Main method for testing from Java server
 	public static void main(String[] args) {
 		try {
 			client = new MqttClient(LOCAL_HOST, DEFAULT_CLIENT_ID, persistance);
