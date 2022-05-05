@@ -35,10 +35,6 @@ public class Connection implements MqttCallback {
 		}
 	}
 
-	public MqttClient getClient() {
-		return this.client;
-	}
-
 	@Override
 	public void connectionLost(Throwable throwable) {
 		System.out.println("Connection to the MQTT broker lost!");
@@ -55,7 +51,7 @@ public class Connection implements MqttCallback {
 
 	@Override
 	public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-		// not used
+		System.out.println("Message delivered");
 	}
 
 //	 Main method for testing from Java server
@@ -69,7 +65,5 @@ public class Connection implements MqttCallback {
 			e.printStackTrace();
 		}
 	}
-
-
 }
 
