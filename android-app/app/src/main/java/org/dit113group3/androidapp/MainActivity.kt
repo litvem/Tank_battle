@@ -5,11 +5,11 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.joystickjhr.JoystickJhr
 import org.eclipse.paho.client.mqttv3.IMqttActionListener
@@ -17,6 +17,7 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.IMqttToken
 import org.eclipse.paho.client.mqttv3.MqttCallback
 import org.eclipse.paho.client.mqttv3.MqttMessage
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,25 +30,45 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
-        var exit = findViewById<ImageButton>(R.id.exit)
-        var shoot = findViewById<Button>(R.id.shoot)
-
-        var joystickJhr = findViewById<JoystickJhr>(R.id.joystickMove)
-        joystickJhr.setOnTouchListener { view, motionEvent ->
-            joystickJhr.move(motionEvent)
-            joystickJhr.angle()
-            joystickJhr.distancia()
-
-            true
-        }
-
         mMqttClient = MqttClient(applicationContext, MQTT_SERVER, TAG)
         mCameraView = findViewById(R.id.imageView)
         connectToMqttBroker()
 
+        var exit = findViewById<ImageButton>(R.id.exit)
+        exit.setOnClickListener {
+            // TODO: display main menu when it's ready
+            val eBuilder = AlertDialog.Builder(this)
+            eBuilder.setTitle("Exit")
+            eBuilder.setIcon(R.drawable.ic_action_name)
+            eBuilder.setMessage("Are you sure you want to Exit ?")
+            eBuilder.setPositiveButton("EXIT") { Dialog,which->
+                mMqttClient!!.publish("/$PREFIX/status/elim", "", QOS, null)
+                finish()
+                exitProcess(0)
+            }
 
+            eBuilder.setNegativeButton("CANCEL") { Dialog,which->
+            }
+            var createBuild = eBuilder.create()
+            createBuild.show()
+
+        }
+
+        var shoot = findViewById<Button>(R.id.shoot)
+        shoot.setOnClickListener {
+            mMqttClient!!.publish("/$PREFIX/cmd/atk", "", QOS, null)
+
+            // TODO: add an internal timer that matches the shoot command cooldown on the tank
+            // TODO: add a visual representation of said timer in for of either displaying the remaining time in the cooldown or through a gauge
+        }
+
+        var joystickJhr = findViewById<JoystickJhr>(R.id.joystickMove)
+        joystickJhr.setOnTouchListener { view, motionEvent ->
+            joystickJhr.move(motionEvent)
+            drive(joystickJhr.distancia(), joystickJhr.angle())
+
+            true
+        }
     }
 
     override fun onResume() {
@@ -76,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, successfulConnection, Toast.LENGTH_SHORT)
                         .show()
                     //mMqttClient?.subscribe("/smartcar/ultrasound/front", QOS, null)
-                    mMqttClient!!.subscribe("/tnk/vid", QOS, null)
+                    mMqttClient!!.subscribe("/$PREFIX/#", QOS, null)
                 }
 
                 override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable) {
@@ -94,10 +115,10 @@ class MainActivity : AppCompatActivity() {
 
                 @Throws(Exception::class)
                 override fun messageArrived(topic: String, message: MqttMessage) {
-                    if (topic == "/tnk/vid") {
+                    if (topic == "/$PREFIX/vid") {
                         val bm =
                             Bitmap.createBitmap(IMAGE_WIDTH, IMAGE_HEIGHT, Bitmap.Config.ARGB_8888)
-                        val payload: ByteArray = message.getPayload()
+                        val payload: ByteArray = message.payload
                         val colors = IntArray(IMAGE_WIDTH * IMAGE_HEIGHT)
                         colors.indices.forEach { ci ->
                             val r = payload[3 * ci]
@@ -107,8 +128,12 @@ class MainActivity : AppCompatActivity() {
                         }
                         bm.setPixels(colors, 0, IMAGE_WIDTH, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT)
                         mCameraView!!.setImageBitmap(bm)
+                    } else if (topic == "/$PREFIX/status/hp") { // TODO: implement when hp has been implemented
+                        println("Foo")
+                    } else if (topic == "/$PREFIX/status/elim") {
+                        println("Bar")
                     } else {
-                        Log.i(TAG, "[MQTT] Topic: " + topic + " | Message: " + message.toString())
+                        Log.i(TAG, "[MQTT] Topic: $topic | Message: $message")
                     }
                 }
 
@@ -119,49 +144,67 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun drive(throttleSpeed: Int, steeringAngle: Int, actionDescription: String?) {
+    fun drive(distFromOrigin: Float, steeringAngle: Float) {
         if (!isConnected) {
             val notConnected = "Not connected (yet)"
             Log.e(TAG, notConnected)
             Toast.makeText(applicationContext, notConnected, Toast.LENGTH_SHORT).show()
             return
         }
-        Log.i(TAG, actionDescription!!)
-        mMqttClient!!.publish(THROTTLE_CONTROL, Integer.toString(throttleSpeed), QOS, null)
-        mMqttClient!!.publish(STEERING_CONTROL, Integer.toString(steeringAngle), QOS, null)
+        val direction: Direction = processDirection(steeringAngle)
+        val speed: Float = processSpeed(distFromOrigin, direction)
+        mMqttClient!!.publish(SPEED_CONTROL, speed.toString(), QOS, null)
+        mMqttClient!!.publish(DIRECTION_CONTROL, direction.toString(), QOS, null)
     }
 
-    fun moveForward(view: View?) {
-        drive(MOVEMENT_SPEED, STRAIGHT_ANGLE, "Moving forward")
+    private fun processSpeed(distFromOrigin: Float, direction: Direction): Float {
+        val joystick: JoystickJhr = findViewById(R.id.joystickMove)
+
+        val invert: Int = when (direction) {
+            Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_RIGHT -> -1
+            else -> 1
+        }
+
+        return invert * distFromOrigin / (joystick.height / 2f)
     }
 
-    fun moveForwardLeft(view: View?) {
-        drive(MOVEMENT_SPEED, -STEERING_ANGLE, "Moving forward left")
-    }
+    private fun processDirection(steeringAngle: Float): Direction {
+        val circle: Float = 360f
+        // Shift angle to align with UP_RIGHT-RIGHT edge
+        val angle: Float = (steeringAngle - 22.5f) % circle
+        val interval: Float = 45f
+        val direction: Direction
 
-    fun stop(view: View?) {
-        drive(IDLE_SPEED, STRAIGHT_ANGLE, "Stopping")
-    }
+        if (0 <= angle && angle < interval) {
+            direction = Direction.UP_RIGHT
+        } else if (interval % circle <= angle && angle < (2 * interval) % circle) {
+            direction = Direction.UP
+        } else if ((2 * interval) % circle <= angle && angle < (3 * interval) % circle) {
+            direction = Direction.UP_LEFT
+        } else if ((3 * interval) % circle <= angle && angle < (4 * interval) % circle) {
+            direction = Direction.LEFT
+        } else if ((4 * interval) % circle <= angle && angle < (5 * interval) % circle) {
+            direction = Direction.DOWN_LEFT
+        } else if ((5 * interval) % circle <= angle && angle < (6 * interval) % circle) {
+            direction = Direction.DOWN
+        } else if ((6 * interval) % circle <= angle && angle < (7 * interval) % circle) {
+            direction = Direction.DOWN_RIGHT
+        } else {
+            direction = Direction.RIGHT
+        }
 
-    fun moveForwardRight(view: View?) {
-        drive(MOVEMENT_SPEED, STEERING_ANGLE, "Moving forward left")
-    }
-
-    fun moveBackward(view: View?) {
-        drive(-MOVEMENT_SPEED, STRAIGHT_ANGLE, "Moving backward")
+        return direction
     }
 
     companion object {
-        private const val TAG = "SmartcarMqttController"
+        private const val TAG = "TankMqttController"
         private const val EXTERNAL_MQTT_BROKER = "aerostun.dev"
         private const val LOCALHOST = "10.0.2.2"
-        private const val MQTT_SERVER = "tcp://" + LOCALHOST + ":1883"
-        private const val THROTTLE_CONTROL = "/smartcar/control/throttle"
-        private const val STEERING_CONTROL = "/smartcar/control/steering"
-        private const val MOVEMENT_SPEED = 70
-        private const val IDLE_SPEED = 0
-        private const val STRAIGHT_ANGLE = 0
-        private const val STEERING_ANGLE = 50
+        private const val MQTT_SERVER = "tcp://$LOCALHOST:1883"
+        private const val PREFIX = "tnk"
+        private const val SPEED_CONTROL = "/$PREFIX/cmd/spd"
+        private const val DIRECTION_CONTROL = "/$PREFIX/cmd/dir"
+        private const val SHOOT_CONTROL = "/$PREFIX/cmd/atk"
         private const val QOS = 1
         private const val IMAGE_WIDTH = 320
         private const val IMAGE_HEIGHT = 240
