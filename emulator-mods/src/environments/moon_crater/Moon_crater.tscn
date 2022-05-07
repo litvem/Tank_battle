@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://src/environments/moon_crater/moon_crater_Plane.mesh" type="ArrayMesh" id=1]
+[ext_resource path="res://src/environments/moon_crater/Moon_crater.gd" type="Script" id=2]
+
+[sub_resource type="ProceduralSky" id=1]
+sky_top_color = Color( 0.101961, 0.145098, 0.172549, 1 )
+sky_horizon_color = Color( 0.290196, 0.290196, 0.290196, 1 )
+sky_curve = 0.771676
+sun_latitude = -112.76
+
+[sub_resource type="Environment" id=2]
+background_mode = 2
+background_sky = SubResource( 1 )
+
+[sub_resource type="HeightMapShape" id=3]
+map_width = 3
+map_depth = 3
+map_data = PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0 )
+
+[node name="Moon" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.857068, 0.515203, 0, -0.515203, 0.857068, 0, 8.05473, 9.8625 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="WorldEnvironment"]
+transform = Transform( 1, 0, 0, 0, 0.992636, 0.121132, 0, -0.121132, 0.992636, 188.465, 50.4027, 112.552 )
+light_energy = 0.205
+light_indirect_energy = 0.484
+light_specular = 0.3
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 173.518, -0.201645, 0.611323, -0.209422, -177.01, 1.05543, 0.674357, -1.14434, -191.787, 0, 0, 0 )
+mesh = ExtResource( 1 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
+shape = SubResource( 3 )
