@@ -18,11 +18,7 @@ const char pass[] = "";
 
 const auto mqttBrokerUrl = "127.0.0.1";
 
-const int straight = 0;
-const int fullRight = 90;
-const int fullLeft = -90;
-const int right = 45;
-const int left = -45;
+const int maxAngle = 60;
 
 const int maxSpeed   = 70;  // 70% of the full speed forward
 const int bSpeed   = -70; // 70% of the full speed backward
@@ -196,19 +192,6 @@ void setSpeed(String message)
 
 void setDirection(String message)
 {
-  if (message == "N" || message == "S") { //Move straight
-    car.setAngle(straight);
-
-  } else if (message == "W") { //Turn left with 90 degrees
-    car.setAngle(fullLeft);
-
-  } else if (message == "E") { //Turn right with 90 degrees
-    car.setAngle(fullRight);
-
-  } else if (message == "NW" || message == "SW") { //Turn left with 45 degrees
-    car.setAngle(left);
-
-  } else if (message == "NE" || message == "SE") { //Turn right with 45 degrees
-    car.setAngle(right);
-  }
+  float angle = message.toFloat() * maxAngle;
+  car.setAngle(round(angle));
 }
