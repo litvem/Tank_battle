@@ -5,19 +5,20 @@ import org.eclipse.paho.android.service.MqttAndroidClient
 import org.eclipse.paho.client.mqttv3.*
 
 class MqttClient(context: Context?, serverUrl: String?, clientId: String?) {
-    private val mMqttAndroidClient: MqttAndroidClient
+    private val mMqttAndroidClient: MqttAndroidClient = MqttAndroidClient(context, serverUrl, clientId)
+
     fun connect(
         username: String?,
-        password: String,
-        connectionCallback: IMqttActionListener?,
-        clientCallback: MqttCallback?
+        password: String?,
+        connectionCallback: IMqttActionListener,
+        clientCallback: MqttCallback
     ) {
         mMqttAndroidClient.setCallback(clientCallback)
         val options = MqttConnectOptions()
-        options.setUserName(username)
-        options.setPassword(password.toCharArray())
-        options.setAutomaticReconnect(true)
-        options.setCleanSession(true)
+        options.userName = username
+        options.password = password?.toCharArray()
+        options.isAutomaticReconnect = true
+        options.isCleanSession = true
         try {
             mMqttAndroidClient.connect(options, null, connectionCallback)
         } catch (e: MqttException) {
@@ -41,7 +42,7 @@ class MqttClient(context: Context?, serverUrl: String?, clientId: String?) {
         }
     }
 
-    fun unsubscribe(topic: String?, unsubscriptionCallback: IMqttActionListener?) {
+    fun unsubscribe(topic: String?, unsubscriptionCallback: IMqttActionListener) {
         try {
             mMqttAndroidClient.unsubscribe(topic, null, unsubscriptionCallback)
         } catch (e: MqttException) {
@@ -51,16 +52,12 @@ class MqttClient(context: Context?, serverUrl: String?, clientId: String?) {
 
     fun publish(topic: String?, message: String, qos: Int, publishCallback: IMqttActionListener?) {
         val mqttMessage = MqttMessage()
-        mqttMessage.setPayload(message.toByteArray())
-        mqttMessage.setQos(qos)
+        mqttMessage.payload = message?.toByteArray()
+        mqttMessage.qos = qos
         try {
             mMqttAndroidClient.publish(topic, mqttMessage, null, publishCallback)
         } catch (e: MqttException) {
             e.printStackTrace()
         }
-    }
-
-    init {
-        mMqttAndroidClient = MqttAndroidClient(context, serverUrl, clientId)
     }
 }
