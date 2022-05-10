@@ -46,16 +46,16 @@ class MainActivity : AppCompatActivity() {
                 exitProcess(0)
             }
 
-            eBuilder.setNegativeButton("CANCEL") { Dialog,which->
+            eBuilder.setNegativeButton("CANCEL") { dialog, which ->
             }
-            var createBuild = eBuilder.create()
+            val createBuild = eBuilder.create()
             createBuild.show()
 
         }
 
         val shoot = findViewById<Button>(R.id.shoot)
         shoot.setOnClickListener {
-            mMqttClient?.publish("/$PREFIX/cmd/atk", "", QOS, null)
+            mMqttClient?.publish(SHOOT_CONTROL, "", QOS, null)
 
             // TODO: add an internal timer that matches the shoot command cooldown on the tank
             // TODO: add a visual representation of said timer in for of either displaying the remaining time in the cooldown or through a gauge
@@ -138,49 +138,38 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, notConnected, Toast.LENGTH_SHORT).show()
             return
         }
-        val direction: Direction = processDirection(steeringAngle)
-        val speed: Float = processSpeed(distFromOrigin, direction)
+        val angle: Float = processAngle(steeringAngle)
+        val speed: Float = processSpeed(distFromOrigin, angle)
+        // Final angle to be sent to the tank
+        val direction: Float = processDirection(angle)
         mMqttClient?.publish(SPEED_CONTROL, speed.toString(), QOS, null)
         mMqttClient?.publish(DIRECTION_CONTROL, direction.toString(), QOS, null)
     }
 
-    private fun processSpeed(distFromOrigin: Float, direction: Direction): Float {
+    private fun processSpeed(distFromOrigin: Float, angle: Float): Float {
         val joystick: JoystickJhr = findViewById(R.id.joystickMove)
 
-        val invert: Int = when (direction) {
-            Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_RIGHT -> -1
-            else -> 1
-        }
+        // If position is on the lower half, invert speed
+        val invert: Int = if (angle <= -90 || angle >= 90) -1 else 1
 
         return invert * distFromOrigin / (joystick.height / 2f)
     }
 
-    private fun processDirection(steeringAngle: Float): Direction {
-        val circle: Float = 360f
-        // Shift angle to align with UP_RIGHT-RIGHT edge
-        val angle: Float = (steeringAngle - 22.5f) % circle
-        val interval: Float = 45f
-        val direction: Direction
+    private fun processAngle(steeringAngle: Float): Float {
+        // Shifts 0 deg by 90 deg counterclockwise and makes the angle range from -180 to 180 deg
+        // with negative values to the left and positive values to the right
+        val angle = -((steeringAngle + 90) % 360 - 180)
+        return angle
+    }
 
-        if (0 <= angle && angle < interval) {
-            direction = Direction.UP_RIGHT
-        } else if (interval % circle <= angle && angle < (2 * interval) % circle) {
-            direction = Direction.UP
-        } else if ((2 * interval) % circle <= angle && angle < (3 * interval) % circle) {
-            direction = Direction.UP_LEFT
-        } else if ((3 * interval) % circle <= angle && angle < (4 * interval) % circle) {
-            direction = Direction.LEFT
-        } else if ((4 * interval) % circle <= angle && angle < (5 * interval) % circle) {
-            direction = Direction.DOWN_LEFT
-        } else if ((5 * interval) % circle <= angle && angle < (6 * interval) % circle) {
-            direction = Direction.DOWN
-        } else if ((6 * interval) % circle <= angle && angle < (7 * interval) % circle) {
-            direction = Direction.DOWN_RIGHT
-        } else {
-            direction = Direction.RIGHT
-        }
+    private fun processDirection(angle: Float): Float {
+        // Left -> -1, right -> 1
+        val generalDirection = if (angle < 0) -1 else 1
 
-        return direction
+        // direction set to the opposite angle if reversing
+        val direction: Float = if (angle <= -90 || angle >= 90) -(angle - generalDirection * 180)
+                                else angle
+        return direction / 90
     }
 
     companion object {
@@ -191,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         private const val PREFIX = "tnk"
         private const val SPEED_CONTROL = "/$PREFIX/cmd/spd"
         private const val DIRECTION_CONTROL = "/$PREFIX/cmd/dir"
-        private const val SHOOT = "/$PREFIX/cmd/atk"
+        private const val SHOOT_CONTROL = "/$PREFIX/cmd/atk"
         private const val QOS = 1
         private const val IMAGE_WIDTH = 320
         private const val IMAGE_HEIGHT = 240
