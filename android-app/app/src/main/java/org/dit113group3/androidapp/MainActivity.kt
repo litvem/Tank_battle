@@ -32,9 +32,8 @@ class MainActivity : AppCompatActivity() {
 
         mMqttClient = MqttClient(applicationContext, MQTT_SERVER, TAG)
         mCameraView = findViewById(R.id.imageView)
-        connectToMqttBroker()
 
-        var exit = findViewById<ImageButton>(R.id.exit)
+        val exit = findViewById<ImageButton>(R.id.exit)
         exit.setOnClickListener {
             // TODO: display main menu when it's ready
             val eBuilder = AlertDialog.Builder(this)
@@ -54,15 +53,15 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        var shoot = findViewById<Button>(R.id.shoot)
+        val shoot = findViewById<Button>(R.id.shoot)
         shoot.setOnClickListener {
-            mMqttClient!!.publish("/$PREFIX/cmd/atk", "", QOS, null)
+            mMqttClient?.publish("/$PREFIX/cmd/atk", "", QOS, null)
 
             // TODO: add an internal timer that matches the shoot command cooldown on the tank
             // TODO: add a visual representation of said timer in for of either displaying the remaining time in the cooldown or through a gauge
         }
 
-        var joystickJhr = findViewById<JoystickJhr>(R.id.joystickMove)
+        val joystickJhr = findViewById<JoystickJhr>(R.id.joystickMove)
         joystickJhr.setOnTouchListener { view, motionEvent ->
             joystickJhr.move(motionEvent)
             drive(joystickJhr.distancia(), joystickJhr.angle())
@@ -76,41 +75,29 @@ class MainActivity : AppCompatActivity() {
         connectToMqttBroker()
     }
 
-    override fun onPause() {
-        super.onPause()
-        mMqttClient!!.disconnect(object : IMqttActionListener {
-            override fun onSuccess(asyncActionToken: IMqttToken) {
-                Log.i(TAG, "Disconnected from broker")
-            }
-
-            override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable?) {}
-        })
-    }
-
     private fun connectToMqttBroker() {
         if (!isConnected) {
-            mMqttClient!!.connect(TAG, "", object : IMqttActionListener {
+            mMqttClient?.connect(TAG, "", object : IMqttActionListener {
                 override fun onSuccess(asyncActionToken: IMqttToken) {
                     isConnected = true
                     val successfulConnection = "Connected to MQTT broker"
                     Log.i(TAG, successfulConnection)
-                    Toast.makeText(applicationContext, successfulConnection, Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(applicationContext, successfulConnection, Toast.LENGTH_SHORT)?.show()
                     //mMqttClient?.subscribe("/smartcar/ultrasound/front", QOS, null)
-                    mMqttClient!!.subscribe("/$PREFIX/#", QOS, null)
+                    mMqttClient?.subscribe("/$PREFIX/#", QOS, null)
                 }
 
                 override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable) {
                     val failedConnection = "Failed to connect to MQTT broker"
                     Log.e(TAG, failedConnection)
-                    Toast.makeText(applicationContext, failedConnection, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, failedConnection, Toast.LENGTH_SHORT)?.show()
                 }
             }, object : MqttCallback {
                 override fun connectionLost(cause: Throwable) {
                     isConnected = false
                     val connectionLost = "Connection to MQTT broker lost"
                     Log.w(TAG, connectionLost)
-                    Toast.makeText(applicationContext, connectionLost, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, connectionLost, Toast.LENGTH_SHORT)?.show()
                 }
 
                 @Throws(Exception::class)
@@ -153,8 +140,8 @@ class MainActivity : AppCompatActivity() {
         }
         val direction: Direction = processDirection(steeringAngle)
         val speed: Float = processSpeed(distFromOrigin, direction)
-        mMqttClient!!.publish(SPEED_CONTROL, speed.toString(), QOS, null)
-        mMqttClient!!.publish(DIRECTION_CONTROL, direction.toString(), QOS, null)
+        mMqttClient?.publish(SPEED_CONTROL, speed.toString(), QOS, null)
+        mMqttClient?.publish(DIRECTION_CONTROL, direction.toString(), QOS, null)
     }
 
     private fun processSpeed(distFromOrigin: Float, direction: Direction): Float {
@@ -204,7 +191,7 @@ class MainActivity : AppCompatActivity() {
         private const val PREFIX = "tnk"
         private const val SPEED_CONTROL = "/$PREFIX/cmd/spd"
         private const val DIRECTION_CONTROL = "/$PREFIX/cmd/dir"
-        private const val SHOOT_CONTROL = "/$PREFIX/cmd/atk"
+        private const val SHOOT = "/$PREFIX/cmd/atk"
         private const val QOS = 1
         private const val IMAGE_WIDTH = 320
         private const val IMAGE_HEIGHT = 240
