@@ -8,6 +8,7 @@ import java.util.List;
 
 // Connection for managing the MQTT broker
 public class TokenHandler implements MqttCallback {
+	public static final String TOKEN_REQUEST = "/tnk/request";
 	public static final String TOKEN_RESPONSE = "/token/set";
 
 	private final List<Tank> tanks = new ArrayList<>();
@@ -15,7 +16,9 @@ public class TokenHandler implements MqttCallback {
 
 
 	public TokenHandler() throws MqttException {
+		this.client.setCallback(this);
 		this.client.connect();
+		client.subscribe(TOKEN_REQUEST);
 	}
 
 	@Override
