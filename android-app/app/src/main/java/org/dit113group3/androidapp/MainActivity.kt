@@ -21,9 +21,9 @@ import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
-    var mMqttClient: MqttClient? = null
-    var isConnected = false
-    var mCameraView: ImageView? = null
+    private var mMqttClient: MqttClient? = null
+    private var isConnected = false
+    private var mCameraView: ImageView? = null
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -184,16 +184,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        val TAG = "TankMqttController"
-        val EXTERNAL_MQTT_BROKER = "aerostun.dev"
-        val LOCALHOST = "10.0.2.2"
-        val MQTT_SERVER = "tcp://$LOCALHOST:1883"
-        val PREFIX = "tnk"
-        val SPEED_CONTROL = "/$PREFIX/cmd/spd"
-        val DIRECTION_CONTROL = "/$PREFIX/cmd/dir"
-        val SHOOT = "/$PREFIX/cmd/atk"
-        val QOS = 1
-        val IMAGE_WIDTH = 320
-        val IMAGE_HEIGHT = 240
+        private const val TAG = "TankMqttController"
+        private const val EXTERNAL_MQTT_BROKER = "aerostun.dev"
+        private const val LOCALHOST = "10.0.2.2"
+        private const val MQTT_SERVER = "tcp://$LOCALHOST:1883"
+        private const val PREFIX = "tnk"
+        private const val SPEED_CONTROL = "/$PREFIX/cmd/spd"
+        private const val DIRECTION_CONTROL = "/$PREFIX/cmd/dir"
+        private const val SHOOT = "/$PREFIX/cmd/atk"
+        private const val QOS = 1
+        private const val IMAGE_WIDTH = 320
+        private const val IMAGE_HEIGHT = 240
     }
 }
