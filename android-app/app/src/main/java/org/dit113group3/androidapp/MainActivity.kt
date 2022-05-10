@@ -46,16 +46,16 @@ class MainActivity : AppCompatActivity() {
                 exitProcess(0)
             }
 
-            eBuilder.setNegativeButton("CANCEL") { Dialog,which->
+            eBuilder.setNegativeButton("CANCEL") { dialog, which ->
             }
-            var createBuild = eBuilder.create()
+            val createBuild = eBuilder.create()
             createBuild.show()
 
         }
 
         val shoot = findViewById<Button>(R.id.shoot)
         shoot.setOnClickListener {
-            mMqttClient?.publish("/$PREFIX/cmd/atk", "", QOS, null)
+            mMqttClient?.publish(SHOOT_CONTROL, "", QOS, null)
 
             // TODO: add an internal timer that matches the shoot command cooldown on the tank
             // TODO: add a visual representation of said timer in for of either displaying the remaining time in the cooldown or through a gauge
