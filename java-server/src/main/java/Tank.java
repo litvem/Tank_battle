@@ -55,7 +55,7 @@ public class Tank implements MqttCallback {
 	}
 
 	@Override
-	public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
+	public void messageArrived(String topic, MqttMessage message) throws Exception {
 		try {
 			this.takeDamage();
 		} catch (MqttException e) {
@@ -64,7 +64,7 @@ public class Tank implements MqttCallback {
 	}
 
 	@Override
-	public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+	public void deliveryComplete(IMqttDeliveryToken token) {
 
 	}
 }

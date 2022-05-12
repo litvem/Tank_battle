@@ -27,17 +27,17 @@ public class TokenHandler implements MqttCallback {
 	}
 
 	@Override
-	public void messageArrived(String s, MqttMessage mqttMessage) throws MqttException {
+	public void messageArrived(String topic, MqttMessage message) throws MqttException {
 		String token = Utils.generateToken();
 		Tank tank = new Tank(token);
 		tanks.add(tank);
-		MqttMessage message = new MqttMessage(token.getBytes(StandardCharsets.UTF_8));
+		MqttMessage tokenMessage = new MqttMessage(token.getBytes(StandardCharsets.UTF_8));
 
-		this.client.publish(TOKEN_RESPONSE, message);
+		this.client.publish(TOKEN_RESPONSE, tokenMessage);
 	}
 
 	@Override
-	public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+	public void deliveryComplete(IMqttDeliveryToken token) {
 		System.out.println("Message delivered");
 	}
 
