@@ -67,4 +67,8 @@ public class Tank implements MqttCallback {
 	public void deliveryComplete(IMqttDeliveryToken token) {
 
 	}
+
+	public String getToken() {
+		return token;
+	}
 }

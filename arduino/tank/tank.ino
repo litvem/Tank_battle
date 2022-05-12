@@ -45,8 +45,8 @@ String token = "";
 char tokenChar[TOKEN_LENGTH];  //some methods require a parameter of type char[] and don't accept the type String
 
 //Subscription topics related to token assignment 
-const char TOKEN[] = "/token/#";
-const char TOKEN_SET[] = "/token/set";
+const char TOKEN[] = "/tnk/token/#";
+const char TOKEN_SET[] = "/tnk/token/set";
 
 //Subscription topics related to commands
 const char COMMAND_TOPIC[] = "/tnk/cmd/#";
