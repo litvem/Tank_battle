@@ -21,6 +21,7 @@ import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
+
     private var mMqttClient: MqttClient? = null
     private var isConnected = false
     private var mCameraView: ImageView? = null
@@ -46,64 +47,16 @@ class MainActivity : AppCompatActivity() {
         private const val IMAGE_HEIGHT = 240
     }
 
-    private fun init() {
-        val client = MqttClient(applicationContext, MQTT_SERVER, TAG)
-        if (!isConnected) {
-            client.connect(TAG, "", object : IMqttActionListener {
-                override fun onSuccess(asyncActionToken: IMqttToken) {
-                    isConnected = true
-                    val successfulConnection = "Connected to token assignment"
-                    Log.i(TAG, successfulConnection)
-                    Toast.makeText(applicationContext, successfulConnection, Toast.LENGTH_SHORT)?.show()
-
-                    client.subscribe(SET_TOKEN, QOS, null)
-                    client.publish(REQUEST_TOKEN, "", QOS, null)
-                }
-
-                override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable) {
-                    val failedConnection = "Failed to connect to MQTT broker"
-                    Log.e(TAG, failedConnection)
-                    Toast.makeText(applicationContext, failedConnection, Toast.LENGTH_SHORT)?.show()
-                }
-            }, object : MqttCallback {
-                override fun connectionLost(cause: Throwable) {
-                    isConnected = false
-                    val connectionLost = "Connection to MQTT broker lost"
-                    Log.w(TAG, connectionLost)
-                    Toast.makeText(applicationContext, connectionLost, Toast.LENGTH_SHORT)?.show()
-                }
-
-                @Throws(Exception::class)
-                override fun messageArrived(topic: String, message: MqttMessage) {
-                    TOKEN = message.toString()
-                    DIRECTION_CONTROL = "/$TOKEN$DIRECTION_CONTROL"
-                    SPEED_CONTROL = "/$TOKEN$SPEED_CONTROL"
-                    SHOOT_CONTROL = "/$TOKEN$SHOOT_CONTROL"
-                    ELIMINATION = "/$TOKEN$ELIMINATION"
-                    HEALTH = "/$TOKEN$HEALTH"
-                    VIDEO = "/$TOKEN$VIDEO"
-                    PREFIX = "/$TOKEN$PREFIX"
-
-                    Log.i(TAG, "[MQTT] Topic: $topic | Message: $message")
-                    client.disconnect()
-                    isConnected = false
-                }
-
-                override fun deliveryComplete(token: IMqttDeliveryToken) {
-                    Log.d(TAG, "Message delivered")
-                }
-            })
-        }
-    }
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        init()
+
         setContentView(R.layout.activity_main)
 
         while (isConnected) {}
-        mMqttClient = MqttClient(applicationContext, MQTT_SERVER, "App-$TOKEN")
+        mMqttClient = MqttClient(applicationContext, MQTT_SERVER, TAG)
+
+        println("App-$TOKEN")
         mCameraView = findViewById(R.id.imageView)
 
         val exit = findViewById<ImageButton>(R.id.exit)
@@ -153,57 +106,108 @@ class MainActivity : AppCompatActivity() {
 
     private fun connectToMqttBroker() {
         if (!isConnected) {
+
             mMqttClient?.connect(TAG, "", object : IMqttActionListener {
-                override fun onSuccess(asyncActionToken: IMqttToken) {
-                    isConnected = true
-                    val successfulConnection = "Connected to MQTT broker"
-                    Log.i(TAG, successfulConnection)
-                    Toast.makeText(applicationContext, successfulConnection, Toast.LENGTH_SHORT)?.show()
-                    //mMqttClient?.subscribe("/smartcar/ultrasound/front", QOS, null)
-                    mMqttClient?.subscribe("$PREFIX/#", QOS, null)
-                }
+                    override fun onSuccess(asyncActionToken: IMqttToken) {
+                        isConnected = true
+                        val successfulConnection = "Connected to token assignment"
+                        Log.i(TAG, successfulConnection)
+                        Toast.makeText(applicationContext, successfulConnection, Toast.LENGTH_SHORT)?.show()
 
-                override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable) {
-                    val failedConnection = "Failed to connect to MQTT broker"
-                    Log.e(TAG, failedConnection)
-                    Toast.makeText(applicationContext, failedConnection, Toast.LENGTH_SHORT)?.show()
-                }
-            }, object : MqttCallback {
-                override fun connectionLost(cause: Throwable) {
-                    isConnected = false
-                    val connectionLost = "Connection to MQTT broker lost"
-                    Log.w(TAG, connectionLost)
-                    Toast.makeText(applicationContext, connectionLost, Toast.LENGTH_SHORT)?.show()
-                }
-
-                @Throws(Exception::class)
-                override fun messageArrived(topic: String, message: MqttMessage) {
-                    if (topic == VIDEO) {
-                        val bm =
-                            Bitmap.createBitmap(IMAGE_WIDTH, IMAGE_HEIGHT, Bitmap.Config.ARGB_8888)
-                        val payload: ByteArray = message.payload
-                        val colors = IntArray(IMAGE_WIDTH * IMAGE_HEIGHT)
-                        colors.indices.forEach { ci ->
-                            val r: Int = payload[3 * ci].toInt() and 0xFF
-                            val g: Int = payload[3 * ci + 1].toInt() and 0xFF
-                            val b: Int = payload[3 * ci + 2].toInt() and 0xFF
-                            colors[ci] = Color.rgb(r, g, b)
-                        }
-                        bm.setPixels(colors, 0, IMAGE_WIDTH, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT)
-                        mCameraView!!.setImageBitmap(bm)
-                    } else if (topic == HEALTH) { // TODO: implement when hp has been implemented
-                        println("Foo")
-                    } else if (topic == ELIMINATION) {
-                        println("Bar")
-                    } else {
-                        Log.i(TAG, "[MQTT] Topic: $topic | Message: $message")
+                        mMqttClient?.subscribe(SET_TOKEN, QOS, null)
+                        mMqttClient?.publish(REQUEST_TOKEN, "", QOS, null)
                     }
-                }
 
-                override fun deliveryComplete(token: IMqttDeliveryToken) {
-                    Log.d(TAG, "Message delivered")
-                }
-            })
+                    override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable) {
+                        val failedConnection = "Failed to connect to MQTT broker"
+                        Log.e(TAG, failedConnection)
+                        Toast.makeText(applicationContext, failedConnection, Toast.LENGTH_SHORT)?.show()
+                    }
+                }, object : MqttCallback {
+                    override fun connectionLost(cause: Throwable) {
+                        isConnected = false
+                        val connectionLost = "Connection to MQTT broker lost"
+                        Log.w(TAG, connectionLost)
+                        Toast.makeText(applicationContext, connectionLost, Toast.LENGTH_SHORT)?.show()
+                    }
+
+                    @Throws(Exception::class)
+                    override fun messageArrived(topic: String, message: MqttMessage) {
+                        TOKEN = message.toString()
+                        DIRECTION_CONTROL = "/$TOKEN$DIRECTION_CONTROL"
+                        SPEED_CONTROL = "/$TOKEN$SPEED_CONTROL"
+                        SHOOT_CONTROL = "/$TOKEN$SHOOT_CONTROL"
+                        ELIMINATION = "/$TOKEN$ELIMINATION"
+                        HEALTH = "/$TOKEN$HEALTH"
+                        VIDEO = "/$TOKEN$VIDEO"
+                        PREFIX = "/$TOKEN$PREFIX"
+
+                        Log.i(TAG, "[MQTT] Topic: $topic | Message: $message")
+
+                        mMqttClient = MqttClient(applicationContext, MQTT_SERVER, "App-$TOKEN")
+
+                        mMqttClient?.connect(TAG, "", object : IMqttActionListener {
+                            override fun onSuccess(asyncActionToken: IMqttToken) {
+                                isConnected = true
+                                val successfulConnection = "Connected to MQTT broker"
+                                Log.i(TAG, successfulConnection)
+                                Toast.makeText(applicationContext, successfulConnection, Toast.LENGTH_SHORT)?.show()
+                                //mMqttClient?.subscribe("/smartcar/ultrasound/front", QOS, null)
+                                mMqttClient?.subscribe("$PREFIX/#", QOS, null)
+                                println("$PREFIX/#")
+                            }
+
+                            override fun onFailure(asyncActionToken: IMqttToken, exception: Throwable) {
+                                val failedConnection = "Failed to connect to MQTT broker"
+                                Log.e(TAG, failedConnection)
+                                Toast.makeText(applicationContext, failedConnection, Toast.LENGTH_SHORT)?.show()
+                            }
+                        }, object : MqttCallback {
+                            override fun connectionLost(cause: Throwable) {
+                                isConnected = false
+                                val connectionLost = "Connection to MQTT broker lost"
+                                Log.w(TAG, connectionLost)
+                                Toast.makeText(applicationContext, connectionLost, Toast.LENGTH_SHORT)?.show()
+                            }
+
+                            @Throws(Exception::class)
+                            override fun messageArrived(topic: String, message: MqttMessage) {
+                                if (topic == VIDEO) {
+                                    val bm =
+                                        Bitmap.createBitmap(IMAGE_WIDTH, IMAGE_HEIGHT, Bitmap.Config.ARGB_8888)
+                                    val payload: ByteArray = message.payload
+                                    val colors = IntArray(IMAGE_WIDTH * IMAGE_HEIGHT)
+                                    colors.indices.forEach { ci ->
+                                        val r: Int = payload[3 * ci].toInt() and 0xFF
+                                        val g: Int = payload[3 * ci + 1].toInt() and 0xFF
+                                        val b: Int = payload[3 * ci + 2].toInt() and 0xFF
+                                        colors[ci] = Color.rgb(r, g, b)
+                                    }
+                                    bm.setPixels(colors, 0, IMAGE_WIDTH, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT)
+                                    mCameraView!!.setImageBitmap(bm)
+                                } else if (topic == HEALTH) { // TODO: implement when hp has been implemented
+                                    println("Foo")
+                                } else if (topic == ELIMINATION) {
+                                    println("Bar")
+                                } else {
+                                    Log.i(TAG, "[MQTT] Topic: $topic | Message: $message")
+                                }
+                            }
+
+                            override fun deliveryComplete(token: IMqttDeliveryToken) {
+                                Log.d(TAG, "Message delivered")
+                            }
+                        })
+
+                    }
+
+                    override fun deliveryComplete(token: IMqttDeliveryToken) {
+                        Log.d(TAG, "Message delivered")
+                    }
+                })
+
+
+
         }
     }
 
