@@ -53,10 +53,8 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        while (isConnected) {}
         mMqttClient = MqttClient(applicationContext, MQTT_SERVER, TAG)
 
-        println("App-$TOKEN")
         mCameraView = findViewById(R.id.imageView)
 
         val exit = findViewById<ImageButton>(R.id.exit)
@@ -100,7 +98,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        while (isConnected) {}
         connectToMqttBroker()
     }
 
@@ -152,7 +149,7 @@ class MainActivity : AppCompatActivity() {
                                 val successfulConnection = "Connected to MQTT broker"
                                 Log.i(TAG, successfulConnection)
                                 Toast.makeText(applicationContext, successfulConnection, Toast.LENGTH_SHORT)?.show()
-                                //mMqttClient?.subscribe("/smartcar/ultrasound/front", QOS, null)
+
                                 mMqttClient?.subscribe("$PREFIX/#", QOS, null)
                                 println("$PREFIX/#")
                             }
@@ -205,9 +202,6 @@ class MainActivity : AppCompatActivity() {
                         Log.d(TAG, "Message delivered")
                     }
                 })
-
-
-
         }
     }
 
