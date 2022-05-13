@@ -122,10 +122,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }, object : MqttCallback {
                     override fun connectionLost(cause: Throwable) {
-                        isConnected = false
-                        val connectionLost = "Connection to MQTT broker lost"
-                        Log.w(TAG, connectionLost)
-                        Toast.makeText(applicationContext, connectionLost, Toast.LENGTH_SHORT)?.show()
+                        if(TOKEN == "") {
+                            isConnected = false
+                            val connectionLost = "Token assignment connection to MQTT broker lost"
+                            Log.w(TAG, connectionLost)
+                            Toast.makeText(applicationContext, connectionLost, Toast.LENGTH_SHORT)
+                                ?.show()
+                        }
                     }
 
                     @Throws(Exception::class)
