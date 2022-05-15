@@ -13,3 +13,4 @@ func get_spawn_position(hint: String) -> Transform:
 	var spawnLocation = locations.pop_front()
 	locations.push_back(spawnLocation)
 	return spawnLocation
+
