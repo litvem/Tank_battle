@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#777678"
+    tools:context=".RulesActivity"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Tank Battle Rules"
+            android:textAlignment="center"
+            android:textSize="40dp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="25dp"
+            android:text="Tank battle game has very simple rules. In our game you can play either in Portrait view or in Landscape view."
+            android:id="@+id/txt2"
+            >
+        </TextView>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:maxWidth="10dp"
+            android:maxHeight="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/portrait">
+
+        </ImageView>
+
+
+
+
+    </LinearLayout>
+
+
+
+
+</ScrollView>
