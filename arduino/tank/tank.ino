@@ -27,7 +27,7 @@ int currentDegrees = 0;
 
 //The emulator already have the shooting implemented in godot.
 //To shoot it, is only required to set the pin 250 to true.
-const int shootyPin = 250; 
+const int shootyPin = 250;
 
 unsigned long lastShotTime = 0;
 const unsigned long SHOOT_RESET = 100;
@@ -44,7 +44,7 @@ const int TOKEN_LENGTH = 2;
 String token = "";
 char tokenChar[TOKEN_LENGTH];  //some methods require a parameter of type char[] and don't accept the type String
 
-//Subscription topics related to token assignment 
+//Subscription topics related to token assignment
 const char TOKEN[] = "/tnk/token/#";
 const char TOKEN_SET[] = "/tnk/token/set";
 
@@ -100,62 +100,7 @@ void setup()
 
   Serial.println(wifiStatus);
 
-  //Connects with a default ClientID ("arduino") to get a token
-  Serial.println("Waiting for token");
-  while (!mqtt.connect("arduino", "public", "public")) {
-    Serial.print(".");
-    delay(1000);
-  }
-
-  //Publish a topic that will work as a token request made to the java application
-  mqtt.publish(REQUEST, "new tank");
-
-  // Sets the tank's id via the first mqtt connection
-  mqtt.subscribe(TOKEN, 1);
-  mqtt.onMessage([](String topic, String message) {
-    if (topic == TOKEN_SET) {
-      
-      if (token == "") {
-        token = message.substring(0, TOKEN_LENGTH);
-        Serial.println(token);
-      }
-
-      //Ends the connection with generic id
-      mqtt.disconnect();
-
-      //Extracts the token string's chars to an char[] required
-      //by the MQTT.connect() method and one of the MQTT.publish()
-      //overload
-      for (int i = 0; i < TOKEN_LENGTH; i++) {
-        tokenChar[i] = token.charAt(i);
-      }
-      strcat(video_topic, tokenChar);
-      strcat(video_topic, VIDEO);
-
-
-      //Establishes new connection with the token as the ClientId
-      //so that each tank has its own connection.
-      Serial.println("Connecting to MQTT broker");
-      while (!mqtt.connect(tokenChar, "public", "public")) {
-        Serial.print(".");
-        delay(1000);
-      }
-      Serial.println("Connected.");
-
-      //Subscribes to tank's specific topics
-      mqtt.subscribe("/" + token + COMMAND_TOPIC, 1);
-
-    } else if (topic == "/" + token + ATTACK) {
-      digitalWrite(shootyPin, HIGH);
-      lastShotTime = currentTime;
-
-    } else if (topic == "/" + token + DIRECTION) {
-      setDirection(message);
-
-    } else if (topic == "/" + token + SPEED) {
-      setSpeed(message);
-    }
-  });
+  connectToTokenAssignment();
 
   //Initialize both heading related variables
   gyro.update();
@@ -257,4 +202,74 @@ void setDirection(String message)
 {
   float angle = message.toFloat() * maxAngle;
   car.setAngle(round(angle));
+}
+
+void connectToTokenAssignment()
+{
+  //Connects with a default ClientID ("arduino") to get a token
+  Serial.println("Waiting for token");
+  while (!mqtt.connect("arduino", "public", "public")) {
+    Serial.print(".");
+    delay(1000);
+  }
+
+  //Publish a topic that will work as a token request made to the java application
+  mqtt.publish(REQUEST, "new tank");
+
+  // Sets the tank's id via the first mqtt connection
+  mqtt.subscribe(TOKEN, 1);
+  mqtt.onMessage([](String topic, String message) {
+    if (topic == TOKEN_SET) {
+
+      if (token == "") {
+        token = message.substring(0, TOKEN_LENGTH);
+        Serial.println(token);
+      }
+
+      //Ends the connection with generic id
+      mqtt.disconnect();
+
+      establishSpecificConnection();
+
+    } 
+  });
+}
+
+void establishSpecificConnection()
+{
+  //Extracts the token string's chars to an char[] required
+  //by the MQTT.connect() method and one of the MQTT.publish()
+  //overload
+  for (int i = 0; i < TOKEN_LENGTH; i++) {
+    tokenChar[i] = token.charAt(i);
+  }
+  strcat(video_topic, tokenChar);
+  strcat(video_topic, VIDEO);
+
+
+  //Establishes new connection with the token as the ClientId
+  //so that each tank has its own connection.
+  Serial.println("Connecting to MQTT broker");
+  while (!mqtt.connect(tokenChar, "public", "public")) {
+    Serial.print(".");
+    delay(1000);
+  }
+  Serial.println("Connected.");
+
+  //Subscribes to tank's specific topics
+  mqtt.subscribe("/" + token + COMMAND_TOPIC, 1);
+  mqtt.onMessage([](String topic, String message) {
+
+    if (topic == "/" + token + ATTACK) {
+      digitalWrite(shootyPin, HIGH);
+      lastShotTime = currentTime;
+
+    } else if (topic == "/" + token + DIRECTION) {
+      setDirection(message);
+
+    } else if (topic == "/" + token + SPEED) {
+      setSpeed(message);
+    }
+
+  });
 }
