@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="25dp"
-            android:text="Tank battle game has very simple rules. In our game you can play either in Portrait view or in Landscape view."
+            android:text="TankBattle game has very simple rules. You can play the game in either portrait or landscape mode, although landscape mode is recommended."
             android:id="@+id/txt2">
         </TextView>
 
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="30dp"
-            android:text="How to control the tank?"
+            android:text="Tank controls"
             android:textColor="#EFDDDD"
             android:textStyle="bold"
             android:id="@+id/txt3"
@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="25dp"
-            android:text="You can control the tank only by joystick. Joystick is implemented as smooth steering so the player can control the tank with more precision.   "
+            android:text="The tank is controlled through a joystick and will move in the direction the joystick is dragged."
             android:textStyle="normal"
             android:id="@+id/txt4"
             >
@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="30dp"
-            android:text="How to shoot other tanks?"
+            android:text="Shooting"
             android:textColor="#EFDDDD"
             android:textStyle="bold"
             android:id="@+id/txt5"
@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="25dp"
-            android:text="You can basically click on shoot button and between each shoot you have to wait 5 seconds. If your tank got damage from other player, your tank's health statue will updated until you die. "
+            android:text="Tap the &quot;SHOOT&quot; button to fire a high-speed projectile in the direction your tank is currently facing. Hitting an opponent will reduce their health points (HP). When a tank's HP reaches 0, it's eliminated."
             android:textStyle="normal"
             android:id="@+id/txt6"
             >
@@ -111,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="30dp"
-            android:text="How to exit the game?"
+            android:text="Exiting the game"
             android:textColor="#EFDDDD"
             android:textStyle="bold"
             android:id="@+id/txt7"
@@ -122,7 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="25dp"
-            android:text="You can click on exit button and you will get a message to confirm that or continue playing."
+            android:text="Click the exit button to return to the main menu. Doing so will immediately eliminate your tank."
             android:textStyle="normal"
             android:id="@+id/txt8"
             >
@@ -142,20 +142,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="25dp"
-            android:text="Now it is the time to enjoy the game, go back to the main menu and start the game. Letsssssssssss gooooooo"
+            android:text="Now that you know how to play, go battle some tanks!"
             android:textStyle="normal"
             android:id="@+id/txt9"
             >
         </TextView>
-
-
-
-
-
-
     </LinearLayout>
-
-
-
-
 </ScrollView>
