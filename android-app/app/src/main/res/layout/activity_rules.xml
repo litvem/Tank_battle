@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#777678"
+    tools:context=".RulesActivity"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/exit"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+        <TextView
+            android:id="@+id/txt1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Tank Battle Rules"
+            android:textAlignment="center"
+            android:textSize="40dp"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="25dp"
+            android:text="TankBattle game has very simple rules. You can play the game in either portrait or landscape mode, although landscape mode is recommended."
+            android:id="@+id/txt2">
+        </TextView>
+
+        <ImageView
+            android:layout_width="400dp"
+            android:layout_height="323dp"
+            android:src="@drawable/portrait"
+            android:textAlignment="center">
+        </ImageView>
+
+        <ImageView
+            android:layout_width="400dp"
+            android:layout_height="220dp"
+            android:src="@drawable/landscape"
+            android:textAlignment="center">
+        </ImageView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="30dp"
+            android:text="Tank controls"
+            android:textColor="#EFDDDD"
+            android:textStyle="bold"
+            android:id="@+id/txt3"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="25dp"
+            android:text="The tank is controlled through a joystick and will move in the direction the joystick is dragged."
+            android:textStyle="normal"
+            android:id="@+id/txt4"
+            >
+        </TextView>
+
+        <ImageView
+            android:layout_width="400dp"
+            android:layout_height="220dp"
+            android:src="@drawable/joystick"
+            android:textAlignment="center"
+            >
+
+        </ImageView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="30dp"
+            android:text="Shooting"
+            android:textColor="#EFDDDD"
+            android:textStyle="bold"
+            android:id="@+id/txt5"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="25dp"
+            android:text="Tap the &quot;SHOOT&quot; button to fire a high-speed projectile in the direction your tank is currently facing. Hitting an opponent will reduce their health points (HP). When a tank's HP reaches 0, it's eliminated."
+            android:textStyle="normal"
+            android:id="@+id/txt6"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="30dp"
+            android:text="Exiting the game"
+            android:textColor="#EFDDDD"
+            android:textStyle="bold"
+            android:id="@+id/txt7"
+            >
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="25dp"
+            android:text="Click the exit button to return to the main menu. Doing so will immediately eliminate your tank."
+            android:textStyle="normal"
+            android:id="@+id/txt8"
+            >
+        </TextView>
+
+        <ImageView
+            android:layout_width="400dp"
+            android:layout_height="220dp"
+            android:src="@drawable/exit"
+            android:textAlignment="center"
+
+            >
+
+        </ImageView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="25dp"
+            android:text="Now that you know how to play, go battle some tanks!"
+            android:textStyle="normal"
+            android:id="@+id/txt9"
+            >
+        </TextView>
+    </LinearLayout>
+</ScrollView>
