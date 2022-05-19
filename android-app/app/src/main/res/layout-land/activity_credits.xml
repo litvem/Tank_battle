@@ -22,19 +22,17 @@
 
     <TextView
         android:id="@+id/devTitle"
-        android:layout_width="0dp"
+        android:layout_width="500dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="sans-serif-black"
         android:text="Developers"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/design_default_color_on_primary"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/tankBattleIcon"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tankBattleIcon"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -46,7 +44,7 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/design_default_color_on_primary"
-        android:textSize="34sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/devBody"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/devBody"
@@ -61,7 +59,7 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/design_default_color_on_primary"
-        android:textSize="34sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/teacherBody"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/teacherBody"
@@ -69,7 +67,7 @@
 
     <TextView
         android:id="@+id/devBody"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/devs"
         android:textAlignment="center"
@@ -143,12 +141,15 @@
 
     <ImageView
         android:id="@+id/tankBattleIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/creditsExit"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@+id/devTitle"
+        app:layout_constraintStart_toEndOf="@+id/creditsExit"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_tankbattle_transparent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
