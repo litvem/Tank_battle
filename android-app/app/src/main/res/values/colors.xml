@@ -14,5 +14,7 @@
     <color name="cool">#188FCF</color>
     <color name="warm">#F1D416</color>
     <color name= "shoot">#8C8C8C</color>
+    <color name= "main_menu_button">#C1BEBE</color>
+
 
 </resources>
