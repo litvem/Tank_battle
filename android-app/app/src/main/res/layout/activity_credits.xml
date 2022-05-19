@@ -12,6 +12,7 @@
         android:id="@+id/imageButton"
         android:layout_width="43dp"
         android:layout_height="43dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -28,10 +29,11 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/design_default_color_on_primary"
+        android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@+id/devBody"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/tankBattleIcon" />
 
     <TextView
         android:id="@+id/teacherTitle"
@@ -42,9 +44,10 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/design_default_color_on_primary"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="@+id/devBody"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/devBody"
         app:layout_constraintTop_toBottomOf="@+id/devBody" />
 
     <TextView
@@ -56,55 +59,57 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/design_default_color_on_primary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="@+id/teacherBody"
+        app:layout_constraintStart_toStartOf="@+id/teacherBody"
         app:layout_constraintTop_toBottomOf="@+id/teacherBody" />
 
     <TextView
         android:id="@+id/devBody"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Emma Litvin(@litvem)\nLuiz Eduardo Philippi Rosane(@LuizRosane)\nBao Quan Lindgren(@BaoLindgren)\nConny Luong(@Operatik)\nRobert Einer(@RobertEiner)\nKhaled Adel Saleh Mohammed Al-Baadani(@khaledad) "
+        android:text="@string/devs"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/design_default_color_on_primary"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/devTitle"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/devTitle"
         app:layout_constraintTop_toBottomOf="@+id/devTitle" />
 
     <TextView
         android:id="@+id/teacherBody"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Dimitrios Platis(@platisd)\nFrancisco Gomes(@fgoneto)"
+        android:text="@string/teachers"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/design_default_color_on_primary"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/teacherTitle"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/teacherTitle"
         app:layout_constraintTop_toBottomOf="@+id/teacherTitle" />
 
     <TextView
         android:id="@+id/taBody"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Noor Ul Eeman Asim\nRenyuan Huang\nRyan David Janson\nRuthger Johan Dijt"
+        android:text="@string/tas"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/design_default_color_on_primary"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/taTitle"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/taTitle"
         app:layout_constraintTop_toBottomOf="@+id/taTitle" />
 
     <TextView
         android:id="@+id/playingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="...for playing our game!"
         android:textColor="@color/design_default_color_on_primary"
         app:layout_constraintEnd_toEndOf="parent"
@@ -115,7 +120,6 @@
         android:id="@+id/youText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:fontFamily="serif"
         android:text="YOU"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -128,7 +132,7 @@
         android:id="@+id/importantlyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="...but most importantly..."
         android:textColor="@color/design_default_color_on_primary"
         app:layout_constraintEnd_toEndOf="parent"
@@ -136,7 +140,7 @@
         app:layout_constraintTop_toBottomOf="@+id/taBody" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/tankBattleIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
