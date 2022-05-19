@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/creditsLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background_night_fade"
+    tools:context=".CreditsActivity">
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+    <TextView
+        android:id="@+id/devTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Developers"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/design_default_color_on_primary"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/tankBattleIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tankBattleIcon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/teacherTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="Teachers"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/design_default_color_on_primary"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="@+id/devBody"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/devBody"
+        app:layout_constraintTop_toBottomOf="@+id/devBody" />
+
+    <TextView
+        android:id="@+id/taTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="TAs"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/design_default_color_on_primary"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="@+id/teacherBody"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/teacherBody"
+        app:layout_constraintTop_toBottomOf="@+id/teacherBody" />
+
+    <TextView
+        android:id="@+id/devBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/devs"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/design_default_color_on_primary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/devTitle"
+        app:layout_constraintStart_toStartOf="@+id/devTitle"
+        app:layout_constraintTop_toBottomOf="@+id/devTitle" />
+
+    <TextView
+        android:id="@+id/teacherBody"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/teachers"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/design_default_color_on_primary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/teacherTitle"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/teacherTitle"
+        app:layout_constraintTop_toBottomOf="@+id/teacherTitle" />
+
+    <TextView
+        android:id="@+id/taBody"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tas"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/design_default_color_on_primary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/taTitle"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/taTitle"
+        app:layout_constraintTop_toBottomOf="@+id/taTitle" />
+
+    <TextView
+        android:id="@+id/playingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="...for playing our game!"
+        android:textColor="@color/design_default_color_on_primary"
+        app:layout_constraintEnd_toEndOf="@+id/youText"
+        app:layout_constraintStart_toStartOf="@+id/youText"
+        app:layout_constraintTop_toBottomOf="@+id/youText" />
+
+    <TextView
+        android:id="@+id/youText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:text="YOU"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/design_default_color_error"
+        app:layout_constraintEnd_toEndOf="@+id/importantlyText"
+        app:layout_constraintStart_toStartOf="@+id/importantlyText"
+        app:layout_constraintTop_toBottomOf="@+id/importantlyText" />
+
+    <TextView
+        android:id="@+id/importantlyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="...but most importantly..."
+        android:textColor="@color/design_default_color_on_primary"
+        app:layout_constraintEnd_toEndOf="@+id/tankBattleIcon"
+        app:layout_constraintStart_toStartOf="@+id/tankBattleIcon"
+        app:layout_constraintTop_toBottomOf="@+id/tankBattleIcon" />
+
+    <ImageView
+        android:id="@+id/tankBattleIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton"
+        app:srcCompat="@drawable/ic_tankbattle_transparent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
