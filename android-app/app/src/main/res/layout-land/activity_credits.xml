@@ -9,7 +9,7 @@
     tools:context=".CreditsActivity">
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/creditsExit"
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:layout_marginStart="4dp"
@@ -148,7 +148,7 @@
         android:layout_marginStart="60dp"
         android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton"
+        app:layout_constraintTop_toBottomOf="@+id/creditsExit"
         app:srcCompat="@drawable/ic_tankbattle_transparent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

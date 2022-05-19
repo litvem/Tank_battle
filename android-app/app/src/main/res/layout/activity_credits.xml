@@ -9,7 +9,7 @@
     tools:context=".CreditsActivity">
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/creditsExit"
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:layout_marginStart="4dp"
