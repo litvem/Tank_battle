@@ -26,9 +26,9 @@ class MqttClient(context: Context?, serverUrl: String?, clientId: String?) {
         }
     }
 
-    fun disconnect(disconnectionCallback: IMqttActionListener?) {
+    fun disconnect() {
         try {
-            mMqttAndroidClient.disconnect(null, disconnectionCallback)
+            mMqttAndroidClient.disconnectForcibly()
         } catch (e: MqttException) {
             e.printStackTrace()
         }

@@ -7,6 +7,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/app_logo"
@@ -18,6 +23,9 @@
             android:name=".CreditsActivity"
             android:exported="false" >
         </activity>
+        <activity
+            android:name=".RulesActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true" >

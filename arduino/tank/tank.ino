@@ -25,19 +25,41 @@ const int bSpeed   = -70; // 70% of the full speed backward
 const int incrementalDegrees = 5; // degrees to turn
 int currentDegrees = 0;
 
-const int shootyPin = 250; //The emulator already have the shooting implemented in godot.
+//The emulator already have the shooting implemented in godot.
 //To shoot it, is only required to set the pin 250 to true.
+const int shootyPin = 250;
 
 unsigned long lastShotTime = 0;
 const unsigned long SHOOT_RESET = 100;
 
 unsigned long prevGyroscopeMeasurement = 0; //Saves the last gyroscope's measurement time
-int gyroscopeTimeInterval = 50; //Time interval between gyroscope's measurement
+int gyroscopeTimeInterval = 50;             //Time interval between gyroscope's measurement
 int currentHeading;
 int previousHeading;
-int gyLimit = 10; //The minimum variation between two measurements that will be interpreted as an impact
+int gyLimit = 10;                          //The minimum variation between two measurements that will be interpreted as an impact
 
 unsigned long currentTime = millis();
+
+const int TOKEN_LENGTH = 2;
+String token = "";
+char tokenChar[TOKEN_LENGTH];  //some methods require a parameter of type char[] and don't accept the type String
+
+//Subscription topics related to token assignment
+const char TOKEN[] = "/tnk/token/#";
+const char TOKEN_SET[] = "/tnk/token/set";
+
+//Subscription topics related to commands
+const char COMMAND_TOPIC[] = "/tnk/cmd/#";
+const char DIRECTION[] = "/tnk/cmd/dir";
+const char SPEED[] = "/tnk/cmd/spd";
+const char ATTACK[] = "/tnk/cmd/atk";
+
+//Publishing related topics
+const char REQUEST[] = "/tnk/request";
+const char DAMAGE[] = "/tnk/dmg";
+const char VIDEO[] = "/tnk/vid";
+const int arrSize = sizeof("/") + sizeof(tokenChar) + sizeof(VIDEO) / sizeof(char);
+char video_topic[arrSize] = "/"; //video topic that will be completed once a token is assigned
 
 ArduinoRuntime arduinoRuntime;
 BrushedMotor leftMotor(arduinoRuntime, smartcarlib::pins::v2::leftMotorPins);
@@ -78,25 +100,7 @@ void setup()
 
   Serial.println(wifiStatus);
 
-  Serial.println("Connecting to MQTT broker");
-  while (!mqtt.connect("arduino", "public", "public")) {
-    Serial.print(".");
-    delay(1000);
-  }
-
-  mqtt.subscribe("/tnk/cmd/#", 1);
-  mqtt.onMessage([](String topic, String message) {
-    if (topic == "/tnk/cmd/atk") {
-      digitalWrite(shootyPin, HIGH);
-      lastShotTime = currentTime;
-
-    } else if (topic == "/tnk/cmd/dir") {
-      setDirection(message);
-
-    } else if (topic == "/tnk/cmd/spd") {
-      setSpeed(message);
-    }
-  });
+  connectToTokenAssignment();
 
   //Initialize both heading related variables
   gyro.update();
@@ -118,8 +122,10 @@ void loop()
     if (currentTime - previousFrame >= 65) {
       previousFrame = currentTime;
       Camera.readFrame(frameBuffer.data());
-      mqtt.publish("/tnk/vid", frameBuffer.data(), frameBuffer.size(),
-                   false, 0);
+      if (!(token == "")) {
+        mqtt.publish(video_topic, frameBuffer.data(), frameBuffer.size(),
+                     false, 0);
+      }
     }
 #endif
 
@@ -136,10 +142,12 @@ void loop()
     int diff = abs(currentHeading - previousHeading);
 
     //Checks if the limit was reached and filters the case which the tank completes a normal full rotation
-    if (diff > gyLimit && (360 - diff > gyLimit)) { 
+    if (diff > gyLimit && (360 - diff > gyLimit)) {
       Serial.println("Impact detected");
       Serial.println(diff);
-      mqtt.publish("/tnk/dmg", "damage report");
+      if (!(token == "")) {
+        mqtt.publish("/" + token + DAMAGE, "damage report");
+      }
     }
     previousHeading = currentHeading;
     prevGyroscopeMeasurement = currentTime;
@@ -194,4 +202,74 @@ void setDirection(String message)
 {
   float angle = message.toFloat() * maxAngle;
   car.setAngle(round(angle));
+}
+
+void connectToTokenAssignment()
+{
+  //Connects with a default ClientID ("arduino") to get a token
+  Serial.println("Waiting for token");
+  while (!mqtt.connect("arduino", "public", "public")) {
+    Serial.print(".");
+    delay(1000);
+  }
+
+  //Publish a topic that will work as a token request made to the java application
+  mqtt.publish(REQUEST, "new tank");
+
+  // Sets the tank's id via the first mqtt connection
+  mqtt.subscribe(TOKEN, 1);
+  mqtt.onMessage([](String topic, String message) {
+    if (topic == TOKEN_SET) {
+
+      if (token == "") {
+        token = message.substring(0, TOKEN_LENGTH);
+        Serial.println(token);
+      }
+
+      //Ends the connection with generic id
+      mqtt.disconnect();
+
+      establishSpecificConnection();
+
+    } 
+  });
+}
+
+void establishSpecificConnection()
+{
+  //Extracts the token string's chars to an char[] required
+  //by the MQTT.connect() method and one of the MQTT.publish()
+  //overload
+  for (int i = 0; i < TOKEN_LENGTH; i++) {
+    tokenChar[i] = token.charAt(i);
+  }
+  strcat(video_topic, tokenChar);
+  strcat(video_topic, VIDEO);
+
+
+  //Establishes new connection with the token as the ClientId
+  //so that each tank has its own connection.
+  Serial.println("Connecting to MQTT broker");
+  while (!mqtt.connect(tokenChar, "public", "public")) {
+    Serial.print(".");
+    delay(1000);
+  }
+  Serial.println("Connected.");
+
+  //Subscribes to tank's specific topics
+  mqtt.subscribe("/" + token + COMMAND_TOPIC, 1);
+  mqtt.onMessage([](String topic, String message) {
+
+    if (topic == "/" + token + ATTACK) {
+      digitalWrite(shootyPin, HIGH);
+      lastShotTime = currentTime;
+
+    } else if (topic == "/" + token + DIRECTION) {
+      setDirection(message);
+
+    } else if (topic == "/" + token + SPEED) {
+      setSpeed(message);
+    }
+
+  });
 }
