@@ -24,6 +24,9 @@
             android:exported="false" >
         </activity>
         <activity
+            android:name=".MainMenuActivity"
+            android:exported="false" />
+        <activity
             android:name=".RulesActivity"
             android:exported="false" />
         <activity
