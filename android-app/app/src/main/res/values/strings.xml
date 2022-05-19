@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">TankBattle</string>
+    <!--Tabs are somehow included in the text-->
+    <string name="devs">Emma Litvin(<a href="https://github.com/litvem">@litvem</a>),
+Luiz Eduardo Phillipi Rosane(<a href="https://github.com/LuizRosane">@LuizRosane</a>),
+Bao Quan Lindgren(<a href="https://github.com/BaoLindgren">@BaoLindgren</a>),
+Conny Luong(<a href="https://github.com/Operatik">@Operatik</a>),
+Robert Einer(<a href="https://github.com/RobertEiner">@RobertEiner</a>),
+Khaled Adel Saleh Mohammed Al-Baadani(<a href="https://github.com/khaledad">@khaledad</a>)</string>
+    <string name="teachers">Dimitrios Platis(<a href="https://github.com/platisd">@platisd</a>),
+Francisco Gomes(<a href="https://github.com/fgoneto">@fgoneto</a>)</string>
+    <string name="tas">Noor Ul Eeman Asim,
+Renyuan Huang,
+Ryan David Janson(<a href="https://github.com/AeroStun">@AeroStun</a>),
+Ruthger Johan Dijt(<a href="https://github.com/RuthgerD">@RuthgerD</a>)</string>
 </resources>
