@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private var mMqttClient: MqttClient? = null
     private var isConnected = false
     private var mCameraView: ImageView? = null
+    private var healthBar: ImageView? = null
 
     private var TOKEN = ""
     private var PREFIX = "/tnk"
@@ -54,8 +55,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mMqttClient = MqttClient(applicationContext, MQTT_SERVER, TAG)
-
         mCameraView = findViewById(R.id.imageView)
+        healthBar = findViewById(R.id.health)
 
         val exit = findViewById<ImageButton>(R.id.exit)
         exit.setOnClickListener {
