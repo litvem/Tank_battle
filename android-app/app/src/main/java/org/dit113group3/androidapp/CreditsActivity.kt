@@ -17,12 +17,11 @@ class CreditsActivity : AppCompatActivity() {
 
         val exit = findViewById<ImageButton>(R.id.creditsExit)
         exit.setOnClickListener {
-            // TODO: display main menu when it's ready
             val eBuilder = AlertDialog.Builder(this)
             eBuilder.setTitle("Exit")
             eBuilder.setIcon(R.drawable.ic_action_name)
-            eBuilder.setMessage("Are you sure you want to Exit ?")
-            eBuilder.setPositiveButton("EXIT") {dialog, which ->
+            eBuilder.setMessage("Return to main menu ?")
+            eBuilder.setPositiveButton("RETURN") {dialog, which ->
                 finish()
                 exitProcess(0)
             }

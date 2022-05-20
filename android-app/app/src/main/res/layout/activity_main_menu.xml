@@ -19,7 +19,7 @@
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/logo"
         android:layout_width="173dp"
         android:layout_height="130dp"
         android:src="@drawable/app_logo_without_background"
@@ -43,8 +43,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.467" />
 
-
     <TextView
+        android:id="@+id/playText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -60,6 +60,7 @@
         app:layout_constraintVertical_bias="0.465" />
 
     <ImageButton
+        android:id="@+id/rules"
         android:layout_width="174dp"
         android:layout_height="72dp"
         android:background="@drawable/button_color_main_menu"
@@ -71,6 +72,7 @@
         app:layout_constraintVertical_bias="0.641" />
 
     <TextView
+        android:id="@+id/rulesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -87,6 +89,7 @@
         app:layout_constraintVertical_bias="0.635" />
 
     <ImageButton
+        android:id="@+id/credits"
         android:layout_width="174dp"
         android:layout_height="72dp"
         android:background="@drawable/button_color_main_menu"
@@ -98,6 +101,7 @@
         app:layout_constraintVertical_bias="0.811" />
 
     <TextView
+        android:id="@+id/creditsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -114,6 +118,7 @@
         app:layout_constraintVertical_bias="0.794" />
 
     <TextView
+        android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"

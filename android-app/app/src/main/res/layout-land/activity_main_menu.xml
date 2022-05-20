@@ -18,115 +18,121 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
-
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="173dp"
-        android:layout_height="130dp"
+        android:id="@+id/logo"
+        android:layout_width="169dp"
+        android:layout_height="120dp"
         android:src="@drawable/app_logo_without_background"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.014"></ImageView>
+        app:layout_constraintVertical_bias="0.161"></ImageView>
 
     <ImageButton
         android:id="@+id/play"
-        android:layout_width="174dp"
-        android:layout_height="53dp"
+        android:layout_width="170dp"
+        android:layout_height="45dp"
         android:background="@drawable/button_color_main_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.541" />
+        app:layout_constraintVertical_bias="0.683" />
 
     <TextView
+        android:id="@+id/playText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:clickable="false"
         android:text="Play"
         android:textColor="@color/main_menu_button"
-        android:textSize="25dp"
+        android:textSize="22dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.540" />
+        app:layout_constraintVertical_bias="0.674" />
 
     <ImageButton
-        android:layout_width="174dp"
-        android:layout_height="53dp"
+        android:id="@+id/rules"
+        android:layout_width="170dp"
+        android:layout_height="45dp"
         android:background="@drawable/button_color_main_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.295"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.748" />
+        app:layout_constraintVertical_bias="0.857" />
 
     <TextView
+        android:id="@+id/rulesText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:clickable="false"
         android:text="Rules"
         android:textColor="@color/main_menu_button"
-        android:textSize="25dp"
+        android:textSize="22dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.334"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.739" />
+        app:layout_constraintVertical_bias="0.852" />
 
     <ImageButton
-        android:layout_width="174dp"
-        android:layout_height="53dp"
+        android:id="@+id/credits"
+        android:layout_width="170dp"
+        android:layout_height="45dp"
         android:background="@drawable/button_color_main_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintHorizontal_bias="0.73"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.955" />
+        app:layout_constraintVertical_bias="0.857" />
 
     <TextView
+        android:id="@+id/creditsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:clickable="false"
         android:text="Credits"
         android:textColor="@color/main_menu_button"
-        android:textSize="25dp"
+        android:textSize="22dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.698"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.950" />
+        app:layout_constraintVertical_bias="0.852" />
 
     <TextView
+        android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:clickable="false"
         android:text="Welcome to Tank Battle"
         android:textColor="@color/main_menu_button"
-        android:textSize="30dp"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.365" />
+        app:layout_constraintVertical_bias="0.498" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
