@@ -27,16 +27,17 @@ class MainActivity : AppCompatActivity() {
     private var mCameraView: ImageView? = null
     private var healthBar: ImageView? = null
 
-    private var TOKEN = ""
-    private var PREFIX = "/tnk"
-    private var SPEED_CONTROL = "$PREFIX/cmd/spd"
-    private var DIRECTION_CONTROL = "$PREFIX/cmd/dir"
-    private var SHOOT_CONTROL = "$PREFIX/cmd/atk"
-    private var ELIMINATION = "$PREFIX/status/elim"
-    private var HEALTH = "$PREFIX/status/hp"
-    private var VIDEO = "$PREFIX/vid"
 
     companion object {
+        private var health = MAX_HEALTH
+        private var TOKEN = ""
+        private var PREFIX = "/tnk"
+        private var SPEED_CONTROL = "$PREFIX/cmd/spd"
+        private var DIRECTION_CONTROL = "$PREFIX/cmd/dir"
+        private var SHOOT_CONTROL = "$PREFIX/cmd/atk"
+        private var ELIMINATION = "$PREFIX/status/elim"
+        private var HEALTH = "$PREFIX/status/hp"
+        private var VIDEO = "$PREFIX/vid"
         private const val REQUEST_TOKEN = "/app/request"
         private const val SET_TOKEN = "/app/token/set"
         private const val TAG = "TankMqttController"
@@ -99,10 +100,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(TOKEN == "") {
+        if (TOKEN == "") {
             connectToMqttBroker()
         } else {
             connectToTank()
+            updateHealthBar(healthBar, health)
         }
     }
 
@@ -210,7 +212,8 @@ class MainActivity : AppCompatActivity() {
                     bm.setPixels(colors, 0, IMAGE_WIDTH, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT)
                     mCameraView!!.setImageBitmap(bm)
                 } else if (topic == HEALTH) {
-                    updateHealthBar(healthBar, message.toString().toInt())
+                    health = message.toString().toInt()
+                    updateHealthBar(healthBar, health)
                 } else if (topic == ELIMINATION) { // TODO: unsubscribe on receive
                     println("Bar")
                 } else {
