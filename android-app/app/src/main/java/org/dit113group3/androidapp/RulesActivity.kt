@@ -13,12 +13,11 @@ class RulesActivity : AppCompatActivity() {
 
         val exit = findViewById<ImageButton>(R.id.exit)
         exit.setOnClickListener {
-            // TODO: display main menu when it's ready
             val eBuilder = AlertDialog.Builder(this)
             eBuilder.setTitle("Exit")
             eBuilder.setIcon(R.drawable.ic_action_name)
-            eBuilder.setMessage("Are you sure you want to Exit ?")
-            eBuilder.setPositiveButton("EXIT") { Dialog,which->
+            eBuilder.setMessage("Return to main menu ?")
+            eBuilder.setPositiveButton("RETURN") { Dialog,which->
                 finish()
                 exitProcess(0)
             }
