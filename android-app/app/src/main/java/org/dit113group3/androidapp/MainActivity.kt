@@ -151,6 +151,9 @@ class MainActivity : AppCompatActivity() {
 
                         Log.i(TAG, "[MQTT] Topic: $topic | Message: $message")
 
+                        // Initialize the health bar only if there's a tank connected
+                        updateHealthBar(healthBar, MAX_HEALTH)
+
                         //establishes a new connection, using the token as part of the client id. The new connection
                         //subscribes to topics related to a specific tank.
                         connectToTank()
@@ -206,9 +209,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     bm.setPixels(colors, 0, IMAGE_WIDTH, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT)
                     mCameraView!!.setImageBitmap(bm)
-                } else if (topic == HEALTH) { // TODO: implement when hp has been implemented
-                    println("Foo")
-                } else if (topic == ELIMINATION) {
+                } else if (topic == HEALTH) {
+                    updateHealthBar(healthBar, message.toString().toInt())
+                } else if (topic == ELIMINATION) { // TODO: unsubscribe on receive
                     println("Bar")
                 } else {
                     Log.i(TAG, "[MQTT] Topic: $topic | Message: $message")
