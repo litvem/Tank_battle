@@ -26,7 +26,7 @@ _data = {
 script = ExtResource( 2 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.848638, 0.528975, 0, -0.528975, 0.848638, -0.968678, 24.6448, 24.3119 )
+transform = Transform( 1, 0, 0, 0, 0.0523359, 0.99863, 0, -0.99863, 0.0523359, 30, 82, 23 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 2 )
