@@ -26,7 +26,7 @@ _data = {
 script = ExtResource( 2 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.848638, 0.528975, 0, -0.528975, 0.848638, -0.968678, 24.6448, 24.3119 )
+transform = Transform( 1, 0, 0, 0, 0.0523359, 0.99863, 0, -0.99863, 0.0523359, 30, 82, 23 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 2 )
@@ -38,28 +38,28 @@ light_energy = 1.895
 light_indirect_energy = 0.924
 light_specular = 0.3
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
+[node name="Surface" type="MeshInstance" parent="."]
 transform = Transform( 173.518, -0.201645, 0.611323, -0.238106, -201.255, 1.19996, 0.674357, -1.14434, -191.787, 0, -5.34058e-05, -0.000411987 )
 mesh = ExtResource( 1 )
 material/0 = null
 
-[node name="StaticBody" type="StaticBody" parent="MeshInstance"]
+[node name="StaticBody" type="StaticBody" parent="Surface"]
 
-[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="Surface/StaticBody"]
 transform = Transform( 1, -1.18234e-10, 0, 3.45608e-11, 1, -9.31323e-10, -4.65661e-10, 9.31323e-10, 1, 0, 0, 0 )
 shape = SubResource( 3 )
 
 [node name="Border" type="Spatial" parent="."]
+visible = false
 
 [node name="Path" type="Path" parent="Border"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25943, 4.11568, -3.45235 )
 curve = SubResource( 4 )
 
 [node name="Border" type="CSGPolygon" parent="Border/Path"]
-visible = false
 use_collision = true
 invert_faces = true
-polygon = PoolVector2Array( -1, 0, -1, 20, 1, 20, 1, 0 )
+polygon = PoolVector2Array( -1, 0, -1, 100, 1, 20, 1, 0 )
 mode = 2
 path_node = NodePath("..")
 path_interval_type = 0
