@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private var isConnected = false
     private var mCameraView: ImageView? = null
     private var healthBar: ImageView? = null
+    private var shootCooldown: ImageView? = null
 
 
     companion object {
@@ -47,6 +49,8 @@ class MainActivity : AppCompatActivity() {
         private const val QOS = 0
         private const val IMAGE_WIDTH = 320
         private const val IMAGE_HEIGHT = 240
+        const val SHOOT_COOLDOWN = 5000L
+        private var cooldownCounter = 5000
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -79,12 +83,27 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        shootCooldown = findViewById(R.id.coolDown)
         val shoot = findViewById<Button>(R.id.shoot)
         shoot.setOnClickListener {
-            mMqttClient?.publish(SHOOT_CONTROL, "", QOS, null)
 
-            // TODO: add an internal timer that matches the shoot command cooldown on the tank
-            // TODO: add a visual representation of said timer in for of either displaying the remaining time in the cooldown or through a gauge
+            if (cooldownCounter == SHOOT_COOLDOWN.toInt()) {
+                mMqttClient?.publish(SHOOT_CONTROL, "", QOS, null)
+
+                // Reset cooldown
+                cooldownCounter = 0
+                object : CountDownTimer(SHOOT_COOLDOWN, SHOOT_COOLDOWN / SHOOT_EDGE) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        cooldownCounter += 50
+                        updateShootCooldown(shootCooldown, cooldownCounter)
+                    }
+
+                    override fun onFinish() {
+                        cooldownCounter = 5000
+                        updateShootCooldown(shootCooldown, cooldownCounter)
+                    }
+                }.start()
+            }
         }
 
         val joystickJhr = findViewById<JoystickJhr>(R.id.joystickMove)
@@ -105,6 +124,17 @@ class MainActivity : AppCompatActivity() {
         } else {
             connectToTank()
             updateHealthBar(healthBar, health)
+            object : CountDownTimer(SHOOT_COOLDOWN - cooldownCounter, SHOOT_COOLDOWN / SHOOT_EDGE) {
+                override fun onTick(millisUntilFinished: Long) {
+                    cooldownCounter += 50
+                    updateShootCooldown(shootCooldown, cooldownCounter)
+                }
+
+                override fun onFinish() {
+                    cooldownCounter = 5000
+                    updateShootCooldown(shootCooldown, cooldownCounter)
+                }
+            }.start()
         }
     }
 
@@ -153,8 +183,9 @@ class MainActivity : AppCompatActivity() {
 
                         Log.i(TAG, "[MQTT] Topic: $topic | Message: $message")
 
-                        // Initialize the health bar only if there's a tank connected
+                        // Initialize the health bar and shoot button only if there's a tank connected
                         updateHealthBar(healthBar, MAX_HEALTH)
+                        updateShootCooldown(shootCooldown, SHOOT_COOLDOWN.toInt())
 
                         //establishes a new connection, using the token as part of the client id. The new connection
                         //subscribes to topics related to a specific tank.
