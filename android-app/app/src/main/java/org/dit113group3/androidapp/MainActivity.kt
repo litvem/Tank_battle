@@ -1,14 +1,12 @@
 package org.dit113group3.androidapp
 
 import android.annotation.SuppressLint
+import android.app.GameManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.joystickjhr.JoystickJhr
@@ -26,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private var isConnected = false
     private var mCameraView: ImageView? = null
     private var healthBar: ImageView? = null
+    private var gameOverMessage: TextView? = null
 
 
     companion object {
@@ -47,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         private const val QOS = 1
         private const val IMAGE_WIDTH = 320
         private const val IMAGE_HEIGHT = 240
+        private const val GAME_OVER = "GAME OVER"
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         mMqttClient = MqttClient(applicationContext, MQTT_SERVER, TAG)
         mCameraView = findViewById(R.id.imageView)
         healthBar = findViewById(R.id.health)
+        gameOverMessage = findViewById(R.id.gameOver)
 
         val exit = findViewById<ImageButton>(R.id.exit)
         exit.setOnClickListener {
@@ -102,6 +103,10 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         if (TOKEN == "") {
             connectToMqttBroker()
+        } else if (health == 0) {
+            connectToTank()
+            updateHealthBar(healthBar, health)
+            gameOverMessage!!.text = GAME_OVER
         } else {
             connectToTank()
             updateHealthBar(healthBar, health)
@@ -215,7 +220,9 @@ class MainActivity : AppCompatActivity() {
                     health = message.toString().toInt()
                     updateHealthBar(healthBar, health)
                 } else if (topic == ELIMINATION) { // TODO: unsubscribe on receive
-                    println("Bar")
+                    health = 0
+                    updateHealthBar(healthBar, health)
+                    gameOverMessage!!.text = GAME_OVER
                 } else {
                     Log.i(TAG, "[MQTT] Topic: $topic | Message: $message")
                 }
