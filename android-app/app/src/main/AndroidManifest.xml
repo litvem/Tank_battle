@@ -21,24 +21,32 @@
         android:theme="@style/Theme.AppCompat.NoActionBar" >
         <activity
             android:name=".CreditsActivity"
-            android:exported="false" >
-        </activity>
-        <activity
-            android:name=".MainMenuActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="false" />
-        <activity
-            android:name=".RulesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" >
 
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainMenuActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="false" />
+
+        <activity
+            android:name=".RulesActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="false" />
+
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="false"/>
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
     </application>
