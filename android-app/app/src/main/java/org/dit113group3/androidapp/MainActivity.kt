@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         private const val EXTERNAL_MQTT_BROKER = "aerostun.dev"
         private const val LOCALHOST = "10.0.2.2"
         private const val MQTT_SERVER = "tcp://$LOCALHOST:1883"
-        private const val QOS = 1
+        private const val QOS = 0
         private const val IMAGE_WIDTH = 320
         private const val IMAGE_HEIGHT = 240
     }
