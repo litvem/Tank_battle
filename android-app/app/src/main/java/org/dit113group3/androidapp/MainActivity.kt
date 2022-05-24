@@ -249,10 +249,11 @@ class MainActivity : AppCompatActivity() {
                 } else if (topic == HEALTH) {
                     health = message.toString().toInt()
                     updateHealthBar(healthBar, health)
-                } else if (topic == ELIMINATION) { // TODO: unsubscribe on receive
+                } else if (topic == ELIMINATION) {
                     health = 0
                     updateHealthBar(healthBar, health)
                     gameOverMessage!!.text = GAME_OVER
+                    mMqttClient?.unsubscribe("$PREFIX/#")
                 } else {
                     Log.i(TAG, "[MQTT] Topic: $topic | Message: $message")
                 }

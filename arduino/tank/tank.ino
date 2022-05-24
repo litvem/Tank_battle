@@ -53,6 +53,7 @@ const char COMMAND_TOPIC[] = "/tnk/cmd/#";
 const char DIRECTION[] = "/tnk/cmd/dir";
 const char SPEED[] = "/tnk/cmd/spd";
 const char ATTACK[] = "/tnk/cmd/atk";
+const char ELIMINATION[] = "/tnk/status/elim";
 
 //Publishing related topics
 const char REQUEST[] = "/tnk/request";
@@ -258,6 +259,7 @@ void establishSpecificConnection()
 
   //Subscribes to tank's specific topics
   mqtt.subscribe("/" + token + COMMAND_TOPIC, 1);
+  mqtt.subscribe("/" + token + ELIMINATION, 1);
   mqtt.onMessage([](String topic, String message) {
 
     if (topic == "/" + token + ATTACK) {
@@ -269,6 +271,9 @@ void establishSpecificConnection()
 
     } else if (topic == "/" + token + SPEED) {
       setSpeed(message);
+      
+    } else if (topic == "/" + token + ELIMINATION){
+      mqtt.unsubscribe("/" + token + COMMAND_TOPIC);
     }
 
   });

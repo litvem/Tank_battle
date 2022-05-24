@@ -42,9 +42,9 @@ class MqttClient(context: Context?, serverUrl: String?, clientId: String?) {
         }
     }
 
-    fun unsubscribe(topic: String?, unsubscriptionCallback: IMqttActionListener) {
+    fun unsubscribe(topic: String?) {
         try {
-            mMqttAndroidClient.unsubscribe(topic, null, unsubscriptionCallback)
+            mMqttAndroidClient.unsubscribe(topic)
         } catch (e: MqttException) {
             e.printStackTrace()
         }
