@@ -46,4 +46,12 @@ class RulesActivityTest {
         onView(withId(R.id.exit)).perform(ViewActions.click())
         onView(withId(R.id.mainMenu)).check(matches(isDisplayed()))
     }
+
+    @Test   //Checks if rotation from portrait mode changes to landscape
+    fun test_landscapeMode() {
+        val activityScenario = ActivityScenario.launch(RulesActivity::class.java)
+        onView(isRoot()).perform(ScreenOrientationChange.orientationLandscape())
+        Thread.sleep(2000)
+        onView(withId(R.id.rulesLayout)).check(matches(isDisplayed()))
+    }
 }

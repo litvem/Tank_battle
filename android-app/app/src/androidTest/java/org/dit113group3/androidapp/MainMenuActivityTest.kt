@@ -7,6 +7,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import org.dit113group3.androidapp.ScreenOrientationChange.Companion.orientationLandscape
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -82,4 +83,11 @@ class MainMenuActivityTest {
         onView(withId(R.id.logo)).check(matches(isDisplayed()))
     }
 
+    @Test   //Checks if rotation from portrait mode changes to landscape
+    fun test_landscapeMode() {
+        val activityScenario = ActivityScenario.launch(MainMenuActivity::class.java)
+        onView(isRoot()).perform(orientationLandscape())
+        Thread.sleep(2000)
+        onView(withId(R.id.mainMenu)).check(matches(isDisplayed()))
+    }
 }

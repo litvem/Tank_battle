@@ -31,4 +31,12 @@ class MainActivityTest {
         onView(withId(R.id.titleTankBattle)).check(matches(withText(R.string.tankBattle)))
         onView(withId(R.id.shoot)).check(matches(withText(R.string.shoot)))
     }
+
+    @Test   //Checks if rotation from portrait mode changes to landscape
+    fun test_landscapeMode() {
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        onView(isRoot()).perform(ScreenOrientationChange.orientationLandscape())
+        Thread.sleep(2000)
+        onView(withId(R.id.mainLayout)).check(matches(isDisplayed()))
+    }
 }

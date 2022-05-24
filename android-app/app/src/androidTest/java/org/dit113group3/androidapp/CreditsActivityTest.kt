@@ -56,4 +56,12 @@ class CreditsActivityTest {
         val activityScenario = ActivityScenario.launch(CreditsActivity::class.java)
         onView(withId(R.id.tankBattleIcon)).check(matches(isDisplayed()))
     }
+
+    @Test   //Checks if rotation from portrait mode changes to landscape
+    fun test_landscapeMode() {
+        val activityScenario = ActivityScenario.launch(CreditsActivity::class.java)
+        onView(isRoot()).perform(ScreenOrientationChange.orientationLandscape())
+        Thread.sleep(2000)
+        onView(withId(R.id.creditsLayout)).check(matches(isDisplayed()))
+    }
 }
