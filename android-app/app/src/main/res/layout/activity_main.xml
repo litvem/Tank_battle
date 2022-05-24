@@ -7,15 +7,13 @@
     android:orientation="vertical"
     tools:context=".MainActivity"
     android:id="@+id/mainLayout"
-    android:background="@drawable/gradient_background_night_fade"
-    >
-
+    android:background="@drawable/gradient_background_night_fade" >
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/titleTankBattle"
         android:layout_width="360dp"
         android:layout_height="40dp"
-        android:text="Tank Battle "
+        android:text="@string/tankBattle"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="25sp"
@@ -41,7 +39,6 @@
         app:radioCircle="0.4"
         app:relleno="false"
         app:rellenoSize="17">
-
     </com.example.joystickjhr.JoystickJhr>
 
     <Button
@@ -49,7 +46,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="32dp"
-        android:text="SHOOT"
+        android:text="@string/shoot"
         android:textSize="18dp"
         android:alpha="0.4"
         android:textAlignment="center"

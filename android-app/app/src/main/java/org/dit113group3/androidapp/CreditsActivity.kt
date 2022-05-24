@@ -1,5 +1,6 @@
 package org.dit113group3.androidapp
 
+import android.content.Intent
 import android.graphics.Color
 import android.widget.ImageButton
 import android.os.Bundle
@@ -17,19 +18,9 @@ class CreditsActivity : AppCompatActivity() {
 
         val exit = findViewById<ImageButton>(R.id.creditsExit)
         exit.setOnClickListener {
-            val eBuilder = AlertDialog.Builder(this)
-            eBuilder.setTitle("Exit")
-            eBuilder.setIcon(R.drawable.ic_action_name)
-            eBuilder.setMessage("Return to main menu ?")
-            eBuilder.setPositiveButton("RETURN") {dialog, which ->
+            val goBack = Intent (this, MainMenuActivity::class.java)
+                startActivity(goBack)
                 finish()
-                exitProcess(0)
-            }
-
-            eBuilder.setNegativeButton("CANCEL") { dialog, which ->
-            }
-            val createBuild = eBuilder.create()
-            createBuild.show()
         }
     }
 

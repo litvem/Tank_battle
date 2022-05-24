@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainMenuActivity"
-    android:background="@drawable/gradient_background_night_fade">
+    android:background="@drawable/gradient_background_night_fade"
+    android:id="@+id/mainMenu">
 
     <ImageButton
         android:id="@+id/exit"
@@ -28,7 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.078"></ImageView>
+        app:layout_constraintVertical_bias="0.078" />
 
 
     <ImageButton
@@ -49,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:clickable="false"
-        android:text="Play"
+        android:text="@string/playText"
         android:textColor="@color/main_menu_button"
         android:textSize="30dp"
         android:textStyle="bold"
@@ -76,7 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Rules"
+        android:text="@string/rulesText"
         android:textSize="30dp"
         android:textStyle="bold"
         android:textColor="@color/main_menu_button"
@@ -105,7 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Credits"
+        android:text="@string/creditsText"
         android:textSize="30dp"
         android:textStyle="bold"
         android:textColor="@color/main_menu_button"
@@ -122,7 +123,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Welcome to Tank Battle"
+        android:text="@string/welcomeTitle"
         android:textSize="33dp"
         android:textStyle="bold"
         android:textColor="@color/main_menu_button"
@@ -133,6 +134,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.300" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
