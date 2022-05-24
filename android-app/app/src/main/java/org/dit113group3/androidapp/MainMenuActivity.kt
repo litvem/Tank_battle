@@ -14,8 +14,8 @@ class MainMenuActivity : AppCompatActivity() {
 
         val play = findViewById<ImageButton>(R.id.play)
         play.setOnClickListener {
-            val Intent = Intent(this, MainActivity::class.java)
-            startActivity(Intent)
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
 
         val rules = findViewById<ImageButton>(R.id.rules)
@@ -26,8 +26,8 @@ class MainMenuActivity : AppCompatActivity() {
 
         val credits = findViewById<ImageButton>(R.id.credits)
         credits.setOnClickListener {
-            val Intent = Intent(this, CreditsActivity::class.java)
-            startActivity(Intent)
+            val intent = Intent(this, CreditsActivity::class.java)
+            startActivity(intent)
         }
 
         val exit = findViewById<ImageButton>(R.id.exit)
