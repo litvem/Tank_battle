@@ -1,17 +1,44 @@
 <resources>
     <string name="app_name">TankBattle</string>
-    <!--Tabs are somehow included in the text-->
+
+    <!--Strings for the Main Menu screen-->
+    <string name="welcomeTitle">Welcome to Tank Battle</string>
+    <string name="playText">Play</string>
+    <string name="rulesText">Rules</string>
+    <string name="creditsText">Credits</string>
+
+    <!--Strings for the Main game screen-->
+    <string name="tankBattle">TankBattle</string>
+    <string name="shoot">SHOOT</string>
+
+    <!--Strings for the Rules screen-->
+    <string name="rulesTitle">Tank Battle Rules</string>
+    <string name="rulesIntroText">TankBattle game has very simple rules. You can play the game in either portrait or landscape mode, although landscape mode is recommended.</string>
+    <string name="tankControlsTitle">Tank controls</string>
+    <string name="tankControlText">The tank is controlled through a joystick and will move in the direction the joystick is dragged.</string>
+    <string name="shootingTitle">Shooting</string>
+    <string name="shootingText">Tap the SHOOT button to fire a high-speed projectile in the direction your tank is currently facing. Hitting an opponent will reduce their health points (HP). When a HP of the tank reaches 0, it is eliminated.</string>
+    <string name="exitTitle">Exiting the game</string>
+    <string name="exitText">Click the exit button to return to the main menu. Doing so will immediately eliminate your tank.</string>
+    <string name="conclusion">Now that you know how to play, go battle some tanks!</string>
+
+    <!--Strings for the Credits screen-->
+    <string name="devTitle">Developers</string>
     <string name="devs">Emma Litvin(<a href="https://github.com/litvem">@litvem</a>),
-Luiz Eduardo Phillipi Rosane(<a href="https://github.com/LuizRosane">@LuizRosane</a>),
-Bao Quan Lindgren(<a href="https://github.com/BaoLindgren">@BaoLindgren</a>),
-Conny Luong(<a href="https://github.com/Operatik">@Operatik</a>),
-Robert Einer(<a href="https://github.com/RobertEiner">@RobertEiner</a>),
-Khaled Adel Saleh Mohammed Al-Baadani(<a href="https://github.com/khaledad">@khaledad</a>)</string>
+            Luiz Eduardo Phillipi Rosane(<a href="https://github.com/LuizRosane">@LuizRosane</a>),
+            Bao Quan Lindgren(<a href="https://github.com/BaoLindgren">@BaoLindgren</a>),
+            Conny Luong(<a href="https://github.com/Operatik">@Operatik</a>),
+            Robert Einer(<a href="https://github.com/RobertEiner">@RobertEiner</a>),
+            Khaled Adel Saleh Mohammed Al-Baadani(<a href="https://github.com/khaledad">@khaledad</a>)</string>
+    <string name="teachersTitle">Teachers</string>
     <string name="teachers">Dimitrios Platis(<a href="https://github.com/platisd">@platisd</a>),
-Francisco Gomes(<a href="https://github.com/fgoneto">@fgoneto</a>)</string>
+            Francisco Gomes(<a href="https://github.com/fgoneto">@fgoneto</a>)</string>
+    <string name="taTitle">TAs</string>
     <string name="tas">Noor Ul Eeman Asim,
-Renyuan Huang,
-Ryan David Janson(<a href="https://github.com/AeroStun">@AeroStun</a>),
-Ruthger Johan Dijt(<a href="https://github.com/RuthgerD">@RuthgerD</a>)</string>
-    <string name="tankbattle">TankBattle</string>
+            Renyuan Huang,
+            Ryan David Janson(<a href="https://github.com/AeroStun">@AeroStun</a>),
+            Ruthger Johan Dijt(<a href="https://github.com/RuthgerD">@RuthgerD</a>)</string>
+    <string name="importantly">...but most importantly...</string>
+    <string name="you">YOU</string>
+    <string name="playing">...for playing our game!</string>
 </resources>
