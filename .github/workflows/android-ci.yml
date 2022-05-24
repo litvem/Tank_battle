@@ -26,6 +26,8 @@ jobs:
   run-instrumented-tests:
     runs-on: macos-latest
     steps:
+    - name: Clone Repo
+      uses: actions/checkout@v2
     - name: make gradlew available
       run: |
           cd android-app

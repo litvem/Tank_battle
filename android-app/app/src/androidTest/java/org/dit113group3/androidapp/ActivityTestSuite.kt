@@ -3,7 +3,7 @@ package org.dit113group3.androidapp
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
-//Run this class to get the results for all the tests sequentially
+/*Uncomment and run this class to get the results for all the tests sequentially
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
     MainMenuActivityTest::class,
@@ -12,3 +12,4 @@ import org.junit.runners.Suite
     CreditsActivityTest::class
 )
 class ActivityTestSuite
+ */
