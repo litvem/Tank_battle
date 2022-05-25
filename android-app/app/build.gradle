@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
 }
+apply plugin : "kotlin-android"
+apply plugin : "kotlin-android-extensions"
 
 android {
     compileSdk 32
@@ -32,9 +34,6 @@ android {
 }
 
 dependencies {
-
-    apply plugin : "kotlin-android"
-    apply plugin : "kotlin-android-extensions"
 
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
