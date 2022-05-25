@@ -109,6 +109,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/design_default_color_on_primary"
         android:textSize="16sp"
+        android:letterSpacing="0.05"
         app:layout_constraintEnd_toEndOf="@+id/taTitle"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/taTitle"

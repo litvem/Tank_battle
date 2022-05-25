@@ -67,6 +67,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/design_default_color_on_primary"
         android:textSize="20sp"
+        android:letterSpacing="0.05"
         app:layout_constraintBottom_toTopOf="@+id/taBody"
         app:layout_constraintEnd_toEndOf="@+id/teacherBody"
         app:layout_constraintHorizontal_bias="0.0"
