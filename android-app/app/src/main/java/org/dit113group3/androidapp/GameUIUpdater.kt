@@ -29,7 +29,7 @@ private val HEALTHY_COLOUR = Color.rgb(0x39, 0xBE, 0x00)
 private val EMPTY = Color.rgb(0xA0, 0xA0, 0xA0)
 
 fun updateHealthBar(healthBar: ImageView?, health: Int) {
-    assert(health in 0..200)
+    assert(health in 0..MAX_HEALTH)
 
     val healthPercent: Float = health.toFloat() / MAX_HEALTH
     val border: Int = round(HEALTH_WIDTH * healthPercent).toInt()
@@ -62,7 +62,7 @@ const val SHOOT_EDGE = 100
 private val FILLER = Color.argb(0xA0, 0x64, 0x64, 0x64)
 
 fun updateShootCooldown(shoot: ImageView?, millisPassed: Int) {
-    assert(millisPassed in 0..5000)
+    assert(millisPassed in 0..MainActivity.SHOOT_COOLDOWN)
 
     val cooldownPercentage: Float = millisPassed.toFloat() / MainActivity.SHOOT_COOLDOWN
     val border: Int = round(SHOOT_EDGE * cooldownPercentage).toInt()

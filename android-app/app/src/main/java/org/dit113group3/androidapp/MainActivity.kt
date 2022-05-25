@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         private const val IMAGE_WIDTH = 320
         private const val IMAGE_HEIGHT = 240
         const val SHOOT_COOLDOWN = 5000L
-        private var cooldownCounter = 5000
+        private var cooldownCounter = SHOOT_COOLDOWN.toInt()
         private const val GAME_OVER = "GAME OVER"
     }
 
@@ -94,12 +94,12 @@ class MainActivity : AppCompatActivity() {
                 cooldownCounter = 0
                 object : CountDownTimer(SHOOT_COOLDOWN, SHOOT_COOLDOWN / SHOOT_EDGE) {
                     override fun onTick(millisUntilFinished: Long) {
-                        cooldownCounter += 50
+                        cooldownCounter += (SHOOT_COOLDOWN / SHOOT_EDGE).toInt()
                         updateShootCooldown(shootCooldown, cooldownCounter)
                     }
 
                     override fun onFinish() {
-                        cooldownCounter = 5000
+                        cooldownCounter = SHOOT_COOLDOWN.toInt()
                         updateShootCooldown(shootCooldown, cooldownCounter)
                     }
                 }.start()
@@ -130,12 +130,12 @@ class MainActivity : AppCompatActivity() {
             updateHealthBar(healthBar, health)
             object : CountDownTimer(SHOOT_COOLDOWN - cooldownCounter, SHOOT_COOLDOWN / SHOOT_EDGE) {
                 override fun onTick(millisUntilFinished: Long) {
-                    cooldownCounter += 50
+                    cooldownCounter += (SHOOT_COOLDOWN / SHOOT_EDGE).toInt()
                     updateShootCooldown(shootCooldown, cooldownCounter)
                 }
 
                 override fun onFinish() {
-                    cooldownCounter = 5000
+                    cooldownCounter = SHOOT_COOLDOWN.toInt()
                     updateShootCooldown(shootCooldown, cooldownCounter)
                 }
             }.start()
