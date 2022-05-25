@@ -7,9 +7,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity"
     android:id="@+id/mainLayout"
-    android:background="@drawable/gradient_background_night_fade"
-    >
-
+    android:background="@drawable/gradient_background_night_fade" >
 
     <com.example.joystickjhr.JoystickJhr
         android:id="@+id/joystickMove"
@@ -26,7 +24,6 @@
         app:radioCircle="0.4"
         app:relleno="false"
         app:rellenoSize="17">
-
     </com.example.joystickjhr.JoystickJhr>
 
 
@@ -45,7 +42,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="32dp"
-        android:text="SHOOT"
+        android:text="@string/shoot"
         android:textSize="18dp"
         android:alpha="0.4"
         android:textAlignment="center"

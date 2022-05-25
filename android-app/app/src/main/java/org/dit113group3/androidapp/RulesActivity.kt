@@ -1,5 +1,6 @@
 package org.dit113group3.androidapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
@@ -13,21 +14,9 @@ class RulesActivity : AppCompatActivity() {
 
         val exit = findViewById<ImageButton>(R.id.exit)
         exit.setOnClickListener {
-            val eBuilder = AlertDialog.Builder(this)
-            eBuilder.setTitle("Exit")
-            eBuilder.setIcon(R.drawable.ic_action_name)
-            eBuilder.setMessage("Return to main menu ?")
-            eBuilder.setPositiveButton("RETURN") { Dialog,which->
-                finish()
-                exitProcess(0)
-            }
-
-            eBuilder.setNegativeButton("CANCEL") { dialog, which ->
-            }
-            val createBuild = eBuilder.create()
-            createBuild.show()
-
+            val goBack = Intent (this, MainMenuActivity::class.java)
+            startActivity(goBack)
+            finish()
         }
-
     }
 }

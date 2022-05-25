@@ -12,7 +12,7 @@
         android:id="@+id/Title"
         android:layout_width="243dp"
         android:layout_height="60dp"
-        android:text="@string/tankbattle"
+        android:text="@string/tankBattle"
         android:textColor="#FFFFFF"
         android:textSize="50sp"
         android:textStyle="bold"
