@@ -31,92 +31,57 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.161" />
 
-    <ImageButton
-        android:id="@+id/play"
-        android:layout_width="170dp"
-        android:layout_height="45dp"
-        android:background="@drawable/button_color_main_menu"
+
+    <Button
+        android:id="@+id/playButton"
+        android:layout_width="172dp"
+        android:layout_height="55dp"
+        android:background="@drawable/ripple_effect"
+        android:fontFamily="@font/tudor_victors"
+        android:letterSpacing="0.05"
+        android:text="@string/playText"
+        android:textColor="@color/main_menu_button_text"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.683" />
+        app:layout_constraintVertical_bias="0.733" />
 
-    <TextView
-        android:id="@+id/playText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:clickable="false"
-        android:text="@string/playText"
-        android:textColor="@color/main_menu_button"
-        android:textSize="22dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.514"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.674" />
-
-    <ImageButton
-        android:id="@+id/rules"
-        android:layout_width="170dp"
-        android:layout_height="45dp"
-        android:background="@drawable/button_color_main_menu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.295"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.857" />
-
-    <TextView
-        android:id="@+id/rulesText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:clickable="false"
+    <Button
+        android:id="@+id/rulesButton"
+        android:layout_width="172dp"
+        android:layout_height="55dp"
+        android:background="@drawable/ripple_effect"
+        android:fontFamily="@font/tudor_victors"
+        android:letterSpacing="0.05"
         android:text="@string/rulesText"
-        android:textColor="@color/main_menu_button"
-        android:textSize="22dp"
-        android:textStyle="bold"
+        android:textColor="@color/main_menu_button_text"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.334"
+        app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.852" />
+        app:layout_constraintVertical_bias="0.938" />
 
-    <ImageButton
-        android:id="@+id/credits"
-        android:layout_width="170dp"
-        android:layout_height="45dp"
-        android:background="@drawable/button_color_main_menu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.73"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.857" />
-
-    <TextView
-        android:id="@+id/creditsText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:clickable="false"
+    <Button
+        android:id="@+id/creditsButton"
+        android:layout_width="172dp"
+        android:layout_height="55dp"
+        android:background="@drawable/ripple_effect"
+        android:fontFamily="@font/tudor_victors"
+        android:letterSpacing="0.05"
         android:text="@string/creditsText"
-        android:textColor="@color/main_menu_button"
-        android:textSize="22dp"
-        android:textStyle="bold"
+        android:textColor="@color/main_menu_button_text"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.698"
+        app:layout_constraintHorizontal_bias="0.738"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.852" />
+        app:layout_constraintVertical_bias="0.938" />
 
     <TextView
         android:id="@+id/welcomeText"
@@ -124,16 +89,18 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:clickable="false"
+        android:fontFamily="@font/tudor_victors"
         android:text="@string/welcomeTitle"
-        android:textColor="@color/main_menu_button"
-        android:textSize="25dp"
+        android:textColor="@color/main_menu_button_text"
+        android:textSize="25sp"
         android:textStyle="bold"
+        android:letterSpacing="0.05"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498" />
+        app:layout_constraintVertical_bias="0.532" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

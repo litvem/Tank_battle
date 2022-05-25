@@ -21,118 +21,85 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="173dp"
-        android:layout_height="130dp"
+        android:layout_width="180dp"
+        android:layout_height="151dp"
         android:src="@drawable/app_logo_without_background"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.078" />
+        app:layout_constraintVertical_bias="0.078"></ImageView>
 
 
-    <ImageButton
-        android:id="@+id/play"
+    <Button
+        android:id="@+id/playButton"
         android:layout_width="174dp"
         android:layout_height="72dp"
-        android:background="@drawable/button_color_main_menu"
+        android:background="@drawable/ripple_effect"
+        android:fontFamily="@font/tudor_victors"
+        android:letterSpacing="0.05"
+        android:text="@string/playText"
+        android:textColor="@color/main_menu_button_text"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.467" />
+
+    <Button
+        android:id="@+id/rulesButton"
+        android:layout_width="174dp"
+        android:layout_height="72dp"
+        android:background="@drawable/ripple_effect"
+        android:fontFamily="@font/tudor_victors"
+        android:letterSpacing="0.05"
+        android:text="@string/rulesText"
+        android:textColor="@color/main_menu_button_text"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.467" />
+        app:layout_constraintVertical_bias="0.649" />
 
-    <TextView
-        android:id="@+id/playText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:clickable="false"
-        android:text="@string/playText"
-        android:textColor="@color/main_menu_button"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.465" />
-
-    <ImageButton
-        android:id="@+id/rules"
+    <Button
+        android:id="@+id/creditsButton"
         android:layout_width="174dp"
         android:layout_height="72dp"
-        android:background="@drawable/button_color_main_menu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.641" />
-
-    <TextView
-        android:id="@+id/rulesText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/rulesText"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        android:textColor="@color/main_menu_button"
-        android:clickable="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.635" />
-
-    <ImageButton
-        android:id="@+id/credits"
-        android:layout_width="174dp"
-        android:layout_height="72dp"
-        android:background="@drawable/button_color_main_menu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.811" />
-
-    <TextView
-        android:id="@+id/creditsText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:background="@drawable/ripple_effect"
+        android:fontFamily="@font/tudor_victors"
         android:text="@string/creditsText"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        android:textColor="@color/main_menu_button"
-        android:clickable="false"
+        android:textColor="@color/main_menu_button_text"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.794" />
+        app:layout_constraintVertical_bias="0.828" />
 
     <TextView
         android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/welcomeTitle"
-        android:textSize="33dp"
-        android:textStyle="bold"
-        android:textColor="@color/main_menu_button"
         android:clickable="false"
+        android:fontFamily="@font/tudor_victors"
+        android:text="@string/welcomeTitle"
+        android:textColor="@color/main_menu_button_text"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.05"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.300" />
+        app:layout_constraintVertical_bias="0.342" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

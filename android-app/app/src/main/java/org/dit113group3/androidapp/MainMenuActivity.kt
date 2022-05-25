@@ -3,8 +3,11 @@ package org.dit113group3.androidapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageButton
+import android.view.View
+import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import kotlinx.android.synthetic.main.activity_main.exit
+import kotlinx.android.synthetic.main.dialog_view_main_menu.view.*
 import kotlin.system.exitProcess
 
 class MainMenuActivity : AppCompatActivity() {
@@ -12,39 +15,44 @@ class MainMenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
 
-        val play = findViewById<ImageButton>(R.id.play)
+        val play = findViewById<Button>(R.id.playButton)
         play.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
 
-        val rules = findViewById<ImageButton>(R.id.rules)
+        val rules = findViewById<Button>(R.id.rulesButton)
         rules.setOnClickListener {
             val intent = Intent(this, RulesActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
-        val credits = findViewById<ImageButton>(R.id.credits)
+        val credits = findViewById<Button>(R.id.creditsButton)
         credits.setOnClickListener {
             val intent = Intent(this, CreditsActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
-        val exit = findViewById<ImageButton>(R.id.exit)
         exit.setOnClickListener {
-            val eBuilder = AlertDialog.Builder(this)
-            eBuilder.setTitle("Exit")
-            eBuilder.setIcon(R.drawable.ic_action_name)
-            eBuilder.setMessage("Are you sure you want to exit the game ?")
-            eBuilder.setPositiveButton("EXIT") { Dialog, which ->
+            val view = View.inflate(this, R.layout.dialog_view_main_menu, null)
+
+            val builder = AlertDialog.Builder(this)
+            builder.setView(view)
+
+            val dialog = builder.create()
+            dialog.show()
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+            view.mainMenuNo.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            view.mainMenuYes.setOnClickListener {
                 finish()
                 exitProcess(0)
             }
-
-            eBuilder.setNegativeButton("CANCEL") { dialog, which ->
-            }
-            val createBuild = eBuilder.create()
-            createBuild.show()
         }
     }
 }

@@ -18,17 +18,15 @@ class MainActivityTest {
         onView(withId(R.id.mainLayout)).check(matches(isDisplayed()))
     }
 
-    @Test   //Checks if Main Activity elements are present
-    fun test_visibility_titles_on_mainScreen() {
+    @Test   //c is present on Main Activity screen
+    fun test_visibility_shoot_button() {
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
-        onView(withId(R.id.titleTankBattle)).check(matches(isDisplayed()))
         onView(withId(R.id.shoot)).check(matches(isDisplayed()))
     }
 
-    @Test   //Checks if Main Activity elements have correct text displayed
+    @Test   //Checks if shoot button has correct text displayed
     fun test_isExpectedTextDisplayed() {
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
-        onView(withId(R.id.titleTankBattle)).check(matches(withText(R.string.tankBattle)))
         onView(withId(R.id.shoot)).check(matches(withText(R.string.shoot)))
     }
 

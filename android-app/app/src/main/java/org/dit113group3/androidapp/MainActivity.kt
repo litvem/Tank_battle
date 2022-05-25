@@ -6,10 +6,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.joystickjhr.JoystickJhr
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_view.view.*
 import org.eclipse.paho.client.mqttv3.IMqttActionListener
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.IMqttToken
@@ -63,24 +66,25 @@ class MainActivity : AppCompatActivity() {
         healthBar = findViewById(R.id.health)
         gameOverMessage = findViewById(R.id.gameOver)
 
-        val exit = findViewById<ImageButton>(R.id.exit)
         exit.setOnClickListener {
-            // TODO: display main menu when it's ready
-            val eBuilder = AlertDialog.Builder(this)
-            eBuilder.setTitle("Exit")
-            eBuilder.setIcon(R.drawable.ic_action_name)
-            eBuilder.setMessage("Return to main menu?")
-            eBuilder.setPositiveButton("RETURN") { Dialog,which->
+            val view = View.inflate(this, R.layout.dialog_view, null)
+
+            val builder = AlertDialog.Builder(this)
+            builder.setView(view)
+
+            val dialog = builder.create()
+            dialog.show()
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+            view.gameNo.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            view.gameYes.setOnClickListener {
                 mMqttClient!!.publish(ELIMINATION, "", QOS, null)
                 finish()
                 exitProcess(0)
             }
-
-            eBuilder.setNegativeButton("CANCEL") { dialog, which ->
-            }
-            val createBuild = eBuilder.create()
-            createBuild.show()
-
         }
 
         shootCooldown = findViewById(R.id.coolDown)
