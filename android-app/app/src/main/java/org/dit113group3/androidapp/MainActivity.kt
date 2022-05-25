@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
         private const val REQUEST_TOKEN = "/app/request"
         private const val SET_TOKEN = "/app/token/set"
         private const val TAG = "TankMqttController"
-        private const val EXTERNAL_MQTT_BROKER = "aerostun.dev"
         private const val LOCALHOST = "10.0.2.2"
         private const val MQTT_SERVER = "tcp://$LOCALHOST:1883"
         private const val QOS = 0
