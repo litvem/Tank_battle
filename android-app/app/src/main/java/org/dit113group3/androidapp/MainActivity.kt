@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
 
     companion object {
-        private var health = MAX_HEALTH
+        private var hp = MAX_HEALTH
         private var TOKEN = ""
         private var PREFIX = "/tnk"
         private var SPEED_CONTROL = "$PREFIX/cmd/spd"
@@ -125,13 +125,13 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         if (TOKEN == "") {
             connectToMqttBroker()
-        } else if (health == 0) {
+        } else if (hp == 0) {
             connectToTank()
-            updateHealthBar(healthBar, health)
+            updateHealthBar(healthBar, hp)
             gameOverMessage!!.text = GAME_OVER
         } else {
             connectToTank()
-            updateHealthBar(healthBar, health)
+            updateHealthBar(healthBar, hp)
             object : CountDownTimer(SHOOT_COOLDOWN - cooldownCounter, SHOOT_COOLDOWN / SHOOT_EDGE) {
                 override fun onTick(millisUntilFinished: Long) {
                     cooldownCounter += (SHOOT_COOLDOWN / SHOOT_EDGE).toInt()
@@ -251,11 +251,11 @@ class MainActivity : AppCompatActivity() {
                     bm.setPixels(colors, 0, IMAGE_WIDTH, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT)
                     mCameraView!!.setImageBitmap(bm)
                 } else if (topic == HEALTH) {
-                    health = message.toString().toInt()
-                    updateHealthBar(healthBar, health)
+                    hp = message.toString().toInt()
+                    updateHealthBar(healthBar, hp)
                 } else if (topic == ELIMINATION) {
-                    health = 0
-                    updateHealthBar(healthBar, health)
+                    hp = 0
+                    updateHealthBar(healthBar, hp)
                     gameOverMessage!!.text = GAME_OVER
                     mMqttClient?.unsubscribe("$PREFIX/#")
                 } else {
