@@ -12,31 +12,35 @@ import org.junit.runner.RunWith
 @RunWith (AndroidJUnit4ClassRunner::class)
 class MainActivityTest {
 
-    @Test   //Checks of Main Activity is launching
+    val sleep = Thread.sleep(2000)
+
+    @Test   //Checks of Main activity is launching
     fun test_isMainActivityInView() {
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.mainLayout)).check(matches(isDisplayed()))
+        sleep
     }
 
-    @Test   //Checks if Main Activity elements are present
-    fun test_visibility_titles_on_mainScreen() {
+    @Test   //Checks if SHOOT button is present on Main activity screen
+    fun test_visibility_shoot_button() {
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
-        onView(withId(R.id.titleTankBattle)).check(matches(isDisplayed()))
         onView(withId(R.id.shoot)).check(matches(isDisplayed()))
+        sleep
     }
 
-    @Test   //Checks if Main Activity elements have correct text displayed
+    @Test   //Checks if SHOOT button has correct text displayed
     fun test_isExpectedTextDisplayed() {
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
-        onView(withId(R.id.titleTankBattle)).check(matches(withText(R.string.tankBattle)))
         onView(withId(R.id.shoot)).check(matches(withText(R.string.shoot)))
+        sleep
     }
 
     @Test   //Checks if rotation from portrait mode changes to landscape
     fun test_landscapeMode() {
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         onView(isRoot()).perform(ScreenOrientationChange.orientationLandscape())
-        Thread.sleep(2000)
+        sleep
         onView(withId(R.id.mainLayout)).check(matches(isDisplayed()))
+        sleep
     }
 }

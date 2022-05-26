@@ -9,21 +9,6 @@
     android:id="@+id/mainLayout"
     android:background="@drawable/gradient_background_night_fade" >
 
-    <TextView
-        android:id="@+id/titleTankBattle"
-        android:layout_width="360dp"
-        android:layout_height="40dp"
-        android:text="@string/tankBattle"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.01" />
-
     <com.example.joystickjhr.JoystickJhr
         android:id="@+id/joystickMove"
         android:layout_width="250dp"
@@ -41,17 +26,28 @@
         app:rellenoSize="17">
     </com.example.joystickjhr.JoystickJhr>
 
+
+    <ImageView
+        android:id="@+id/coolDown"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.892" />
+
     <Button
         android:id="@+id/shoot"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="32dp"
         android:text="@string/shoot"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:alpha="0.4"
         android:textAlignment="center"
         android:gravity="center"
-        android:background="@drawable/gradient_background_night_fade"
+        android:background="@drawable/button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -79,6 +75,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.172"
         app:srcCompat="@drawable/ic_launcher_foreground" />
+
+    <ImageView
+        android:id="@+id/health"
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toTopOf="@id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/gameOver"
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:text=""
+        android:textSize="26dp"
+        android:alpha="1"
+        android:textAlignment="center"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

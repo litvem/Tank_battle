@@ -4,14 +4,15 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.joystickjhr.JoystickJhr
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_view.view.*
 import org.eclipse.paho.client.mqttv3.IMqttActionListener
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken
 import org.eclipse.paho.client.mqttv3.IMqttToken
@@ -25,26 +26,32 @@ class MainActivity : AppCompatActivity() {
     private var mMqttClient: MqttClient? = null
     private var isConnected = false
     private var mCameraView: ImageView? = null
+    private var healthBar: ImageView? = null
+    private var shootCooldown: ImageView? = null
+    private var gameOverMessage: TextView? = null
 
-    private var TOKEN = ""
-    private var PREFIX = "/tnk"
-    private var SPEED_CONTROL = "$PREFIX/cmd/spd"
-    private var DIRECTION_CONTROL = "$PREFIX/cmd/dir"
-    private var SHOOT_CONTROL = "$PREFIX/cmd/atk"
-    private var ELIMINATION = "$PREFIX/status/elim"
-    private var HEALTH = "$PREFIX/status/hp"
-    private var VIDEO = "$PREFIX/vid"
 
     companion object {
+        private var hp = MAX_HEALTH
+        private var TOKEN = ""
+        private var PREFIX = "/tnk"
+        private var SPEED_CONTROL = "$PREFIX/cmd/spd"
+        private var DIRECTION_CONTROL = "$PREFIX/cmd/dir"
+        private var SHOOT_CONTROL = "$PREFIX/cmd/atk"
+        private var ELIMINATION = "$PREFIX/status/elim"
+        private var HEALTH = "$PREFIX/status/hp"
+        private var VIDEO = "$PREFIX/vid"
         private const val REQUEST_TOKEN = "/app/request"
         private const val SET_TOKEN = "/app/token/set"
         private const val TAG = "TankMqttController"
-        private const val EXTERNAL_MQTT_BROKER = "aerostun.dev"
         private const val LOCALHOST = "10.0.2.2"
         private const val MQTT_SERVER = "tcp://$LOCALHOST:1883"
-        private const val QOS = 1
+        private const val QOS = 0
         private const val IMAGE_WIDTH = 320
         private const val IMAGE_HEIGHT = 240
+        const val SHOOT_COOLDOWN = 5000L
+        private var cooldownCounter = SHOOT_COOLDOWN.toInt()
+        private const val GAME_OVER = "GAME OVER"
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -54,35 +61,52 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mMqttClient = MqttClient(applicationContext, MQTT_SERVER, TAG)
-
         mCameraView = findViewById(R.id.imageView)
+        healthBar = findViewById(R.id.health)
+        gameOverMessage = findViewById(R.id.gameOver)
 
-        val exit = findViewById<ImageButton>(R.id.exit)
         exit.setOnClickListener {
-            // TODO: display main menu when it's ready
-            val eBuilder = AlertDialog.Builder(this)
-            eBuilder.setTitle("Exit")
-            eBuilder.setIcon(R.drawable.ic_action_name)
-            eBuilder.setMessage("Return to main menu?")
-            eBuilder.setPositiveButton("RETURN") { Dialog,which->
+            val view = View.inflate(this, R.layout.dialog_view, null)
+
+            val builder = AlertDialog.Builder(this)
+            builder.setView(view)
+
+            val dialog = builder.create()
+            dialog.show()
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+            view.gameNo.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            view.gameYes.setOnClickListener {
                 mMqttClient!!.publish(ELIMINATION, "", QOS, null)
                 finish()
                 exitProcess(0)
             }
-
-            eBuilder.setNegativeButton("CANCEL") { dialog, which ->
-            }
-            val createBuild = eBuilder.create()
-            createBuild.show()
-
         }
 
+        shootCooldown = findViewById(R.id.coolDown)
         val shoot = findViewById<Button>(R.id.shoot)
         shoot.setOnClickListener {
-            mMqttClient?.publish(SHOOT_CONTROL, "", QOS, null)
 
-            // TODO: add an internal timer that matches the shoot command cooldown on the tank
-            // TODO: add a visual representation of said timer in for of either displaying the remaining time in the cooldown or through a gauge
+            if (cooldownCounter == SHOOT_COOLDOWN.toInt()) {
+                mMqttClient?.publish(SHOOT_CONTROL, "", QOS, null)
+
+                // Reset cooldown
+                cooldownCounter = 0
+                object : CountDownTimer(SHOOT_COOLDOWN, SHOOT_COOLDOWN / SHOOT_EDGE) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        cooldownCounter += (SHOOT_COOLDOWN / SHOOT_EDGE).toInt()
+                        updateShootCooldown(shootCooldown, cooldownCounter)
+                    }
+
+                    override fun onFinish() {
+                        cooldownCounter = SHOOT_COOLDOWN.toInt()
+                        updateShootCooldown(shootCooldown, cooldownCounter)
+                    }
+                }.start()
+            }
         }
 
         val joystickJhr = findViewById<JoystickJhr>(R.id.joystickMove)
@@ -98,10 +122,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(TOKEN == "") {
+        if (TOKEN == "") {
             connectToMqttBroker()
+        } else if (hp == 0) {
+            connectToTank()
+            updateHealthBar(healthBar, hp)
+            gameOverMessage!!.text = GAME_OVER
         } else {
             connectToTank()
+            updateHealthBar(healthBar, hp)
+            object : CountDownTimer(SHOOT_COOLDOWN - cooldownCounter, SHOOT_COOLDOWN / SHOOT_EDGE) {
+                override fun onTick(millisUntilFinished: Long) {
+                    cooldownCounter += (SHOOT_COOLDOWN / SHOOT_EDGE).toInt()
+                    updateShootCooldown(shootCooldown, cooldownCounter)
+                }
+
+                override fun onFinish() {
+                    cooldownCounter = SHOOT_COOLDOWN.toInt()
+                    updateShootCooldown(shootCooldown, cooldownCounter)
+                }
+            }.start()
         }
     }
 
@@ -149,6 +189,10 @@ class MainActivity : AppCompatActivity() {
                         PREFIX = "/$TOKEN$PREFIX"
 
                         Log.i(TAG, "[MQTT] Topic: $topic | Message: $message")
+
+                        // Initialize the health bar and shoot button only if there's a tank connected
+                        updateHealthBar(healthBar, MAX_HEALTH)
+                        updateShootCooldown(shootCooldown, SHOOT_COOLDOWN.toInt())
 
                         //establishes a new connection, using the token as part of the client id. The new connection
                         //subscribes to topics related to a specific tank.
@@ -205,10 +249,14 @@ class MainActivity : AppCompatActivity() {
                     }
                     bm.setPixels(colors, 0, IMAGE_WIDTH, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT)
                     mCameraView!!.setImageBitmap(bm)
-                } else if (topic == HEALTH) { // TODO: implement when hp has been implemented
-                    println("Foo")
+                } else if (topic == HEALTH) {
+                    hp = message.toString().toInt()
+                    updateHealthBar(healthBar, hp)
                 } else if (topic == ELIMINATION) {
-                    println("Bar")
+                    hp = 0
+                    updateHealthBar(healthBar, hp)
+                    gameOverMessage!!.text = GAME_OVER
+                    mMqttClient?.unsubscribe("$PREFIX/#")
                 } else {
                     Log.i(TAG, "[MQTT] Topic: $topic | Message: $message")
                 }

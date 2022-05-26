@@ -30,7 +30,10 @@
             android:layout_height="match_parent"
             android:text="@string/rulesTitle"
             android:textAlignment="center"
-            android:textSize="40dp"
+            android:fontFamily="@font/tudor_victors"
+            android:textSize="40sp"
+            android:textColor="@color/main_menu_button_text"
+            android:letterSpacing="0.05"
             android:textStyle="bold" />
 
         <TextView
@@ -43,28 +46,32 @@
         <ImageView
             android:layout_width="400dp"
             android:layout_height="323dp"
-            android:src="@drawable/portrait"
+            android:id="@+id/gamePortrait"
+            android:src="@drawable/game_tank"
             android:textAlignment="center" />
 
         <ImageView
             android:layout_width="400dp"
             android:layout_height="220dp"
-            android:src="@drawable/landscape"
+            android:id="@+id/gameLandscape"
+            android:src="@drawable/game_tank_land"
             android:textAlignment="center" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:text="@string/tankControlsTitle"
-            android:textColor="#EFDDDD"
+            android:textColor="@color/main_menu_button_text"
             android:textStyle="bold"
+            android:letterSpacing="0.05"
+            android:fontFamily="@font/tudor_victors"
             android:id="@+id/tankControlsTitle" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:text="@string/tankControlText"
             android:textStyle="normal"
             android:id="@+id/tankControlText" />
@@ -72,22 +79,25 @@
         <ImageView
             android:layout_width="400dp"
             android:layout_height="220dp"
+            android:id="@+id/joystickImage"
             android:src="@drawable/joystick"
             android:textAlignment="center" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:text="@string/shootingTitle"
-            android:textColor="#EFDDDD"
+            android:textColor="@color/main_menu_button_text"
             android:textStyle="bold"
+            android:letterSpacing="0.05"
+            android:fontFamily="@font/tudor_victors"
             android:id="@+id/shootingTitle" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:text="@string/shootingText"
             android:textStyle="normal"
             android:id="@+id/shootingText" />
@@ -95,16 +105,18 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:text="@string/exitTitle"
-            android:textColor="#EFDDDD"
+            android:textColor="@color/main_menu_button_text"
             android:textStyle="bold"
+            android:letterSpacing="0.05"
+            android:fontFamily="@font/tudor_victors"
             android:id="@+id/exitTitle" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:text="@string/exitText"
             android:textStyle="normal"
             android:id="@+id/exitTe" />
@@ -112,13 +124,14 @@
         <ImageView
             android:layout_width="400dp"
             android:layout_height="220dp"
-            android:src="@drawable/exit"
+            android:id="@+id/dialogWindow"
+            android:src="@drawable/exit_game"
             android:textAlignment="center" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:text="@string/conclusion"
             android:textStyle="normal"
             android:id="@+id/conclusion" />

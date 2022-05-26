@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">TankBattle</string>
 
+    <!--Strings for exit pop-up screen-->
+    <string name="exitTextGameScreen">Would you like to leave the battle?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="exitTextMainMenuScreen">Would you like to exit the game?</string>
+
     <!--Strings for the Main Menu screen-->
     <string name="welcomeTitle">Welcome to Tank Battle</string>
     <string name="playText">Play</string>
@@ -27,8 +33,8 @@
     <string name="devs">Emma Litvin(<a href="https://github.com/litvem">@litvem</a>), \nLuiz Eduardo Phillipi Rosane(<a href="https://github.com/LuizRosane">@LuizRosane</a>), \nBao Quan Lindgren(<a href="https://github.com/BaoLindgren">@BaoLindgren</a>), \nConny Luong(<a href="https://github.com/Operatik">@Operatik</a>), \nRobert Einer(<a href="https://github.com/RobertEiner">@RobertEiner</a>), \nKhaled Adel Saleh Mohammed Al-Baadani(<a href="https://github.com/khaledad">@khaledad</a>)</string>
     <string name="teachersTitle">Teachers</string>
     <string name="teachers">Dimitrios Platis(<a href="https://github.com/platisd">@platisd</a>), \nFrancisco Gomes(<a href="https://github.com/fgoneto">@fgoneto</a>)</string>
-    <string name="taTitle">TAs</string>
-    <string name="tas">Noor Ul Eeman Asim, \nRenyuan Huang, \nRyan David Janson(<a href="https://github.com/AeroStun">@AeroStun</a>), \nRuthger Johan Dijt(<a href="https://github.com/RuthgerD">@RuthgerD</a>)</string>
+    <string name="taTitle">Teaching assistants</string>
+    <string name="tas">Noor Ul Eeman Asim(<a href="https://github.com/gusasino">gusasino</a>), \nRenyuan Huang(<a href="https://github.com/hry625">hry625</a>), \n(<a href="https://github.com/AeroStun">@AeroStun</a>), \n(<a href="https://github.com/RuthgerD">@RuthgerD</a>)</string>
     <string name="importantly">...but most importantly...</string>
     <string name="you">YOU</string>
     <string name="playing">...for playing our game!</string>

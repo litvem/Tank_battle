@@ -24,7 +24,9 @@
         android:id="@+id/devTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/tudor_victors"
+        android:letterSpacing="0.05"
         android:text="@string/devTitle"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -32,6 +34,7 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/devBody"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tankBattleIcon" />
 
@@ -39,7 +42,9 @@
         android:id="@+id/teacherTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/tudor_victors"
+        android:letterSpacing="0.05"
         android:text="@string/teachersTitle"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -54,48 +59,26 @@
         android:id="@+id/taTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/tudor_victors"
+        android:letterSpacing="0.05"
         android:text="@string/taTitle"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/design_default_color_on_primary"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/taBody"
         app:layout_constraintEnd_toEndOf="@+id/teacherBody"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/teacherBody"
         app:layout_constraintTop_toBottomOf="@+id/teacherBody" />
-
-    <TextView
-        android:id="@+id/devBody"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/devs"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@color/design_default_color_on_primary"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/devTitle"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/devTitle"
-        app:layout_constraintTop_toBottomOf="@+id/devTitle" />
-
-    <TextView
-        android:id="@+id/teacherBody"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/teachers"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@color/design_default_color_on_primary"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/teacherTitle"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/teacherTitle"
-        app:layout_constraintTop_toBottomOf="@+id/teacherTitle" />
 
     <TextView
         android:id="@+id/taBody"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="@string/tas"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
@@ -107,24 +90,47 @@
         app:layout_constraintTop_toBottomOf="@+id/taTitle" />
 
     <TextView
-        android:id="@+id/playingText"
-        android:layout_width="wrap_content"
+        android:id="@+id/devBody"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/playing"
+        android:layout_marginTop="8dp"
+        android:text="@string/devs"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/design_default_color_on_primary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/youText" />
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/devTitle"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/devTitle"
+        app:layout_constraintTop_toBottomOf="@+id/devTitle" />
+
+    <TextView
+        android:id="@+id/teacherBody"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/teachers"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/design_default_color_on_primary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/teacherTitle"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/teacherTitle"
+        app:layout_constraintTop_toBottomOf="@+id/teacherTitle" />
 
     <TextView
         android:id="@+id/youText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:fontFamily="serif"
         android:text="@string/you"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/design_default_color_error"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/importantlyText" />
 
@@ -132,17 +138,32 @@
         android:id="@+id/importantlyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="@string/importantly"
         android:textColor="@color/design_default_color_on_primary"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taBody" />
 
-    <ImageView
-        android:id="@+id/tankBattleIcon"
+    <TextView
+        android:id="@+id/playingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/playing"
+        android:textColor="@color/design_default_color_on_primary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/youText" />
+
+    <ImageView
+        android:id="@+id/tankBattleIcon"
+        android:layout_width="189dp"
+        android:layout_height="181dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

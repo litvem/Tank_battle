@@ -35,6 +35,9 @@ public class Tank implements MqttCallback {
 	//Deducts health points from the tank, then proceeds to publish updated healthpoints to the broker,
 	//if healthPoints reaches 0, the client unsubscribes from "tnk/dmg" and publishes death message to the broker
 	public void takeDamage() throws MqttException {
+		if (healthPoints == 0){
+			return;
+		}
 		healthPoints = healthPoints - DAMAGE_TAKEN;
 		String updatedHealth = Integer.toString(healthPoints);
 		System.out.println(updatedHealth);						//printing for testing purpose
