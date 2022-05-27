@@ -26,7 +26,7 @@ To allow players control the tanks, an Android application was developed using *
 
 The connection between the Android app and Arduino tank is managed via MQTT protocol. The MQTT broker that we used during development was a local **Mosquitto** broker.
 
-To handle the game logic, a **Java** application, with **Maven** as the chosen building tool, was implemented. This application stores and updates the tanks' health points. The tank reports impact detections to the java application and the second informs the updated health points to the android app so it can be displayed to the player. The Java application also handles the distribution of unique tokens to each tank and app pair so that multiple players can play against each other.
+To handle the game logic, a **Java** application, with **Maven** as the chosen building tool, was implemented. This application stores and updates the tanks' health points. The tank reports impact detections to the Java application and the second informs the updated health points to the android app so it can be displayed to the player. The Java application also handles the distribution of unique tokens to each tank and app pair so that multiple players can play against each other.
 
 All clients involved in a MQTT communication must have a unique client ID. Therefore, all tank and app instances have a generic ID at the first. Once they receive a token, a new connection is established using the token as part of the id to ensure its uniqueness.
 
@@ -34,19 +34,19 @@ All clients involved in a MQTT communication must have a unique client ID. There
 
 All tanks in the emulator are run with a **C++** sketch(an .ino file). Fast changes in the gyroscope's measurements are used to detect impact inflicted on a tank.
 
-To create a new landscape for the emulate environment, we used an open-source 3D modeling software **Blender** and the **Godot** game engine.
+To create a new landscape for the emulated environment, we used an open-source 3D modeling software **Blender** and the **Godot** game engine.
 
 ## Demonstration
 
 This [video](https://youtu.be/fK3lWxg_zFw) contains a demonstration of the whole application running.
 
- ## Resources:
+
+## Resources:
 * [Eclipse Mosquitto™](https://mosquitto.org/)
 * [SMCE-gd](https://github.com/ItJustWorksTM/smce-gd)
 * [Blender](https://www.blender.org/) 
 * [Godot](https://godotengine.org/)
 * [Texture for the new landscape](https://ambientcg.com/view?id=Rock017)
-
 
 * Android app: 
     * [Gradle](https://gradle.org/)
@@ -59,8 +59,6 @@ This [video](https://youtu.be/fK3lWxg_zFw) contains a demonstration of the whole
     * [Moon image for splash screen](https://earthsky.org/earthsky-community-photos/entry/43930/)
     * [Tank image for splash screen](http://favpng.com/png_view/tank-tank-download-icon-png/8yar3Bvc)
 
-
-    
 * Tank sketch:
     * [Arduino](https://www.arduino.cc/reference/en/)
     * [smartcar_shield](https://github.com/platisd/smartcar_shield)
@@ -73,17 +71,20 @@ This [video](https://youtu.be/fK3lWxg_zFw) contains a demonstration of the whole
     * [Eclipse Paho Java Client](https://www.eclipse.org/paho/index.php?page=clients/java/index.php)
     * [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/)
 
+
 ## Installation and setup
 
 Follow the installation and setup guide for TankBattle [here](https://github.com/DIT113-V22/group-03/wiki/Installation-and-setup)!
 
+
 ## Virtual Hardware Architecture
 
-The emulated tank has an arduino uno board and contains a OmniVision OV7670 camera and a gyroscope. The pin 250   
+The emulated tank has an arduino uno board and contains a OmniVision OV7670 camera and a gyroscope.  
+
 
 ## Software's Architecture
 
-The software architecture style used in this project was the publish-subscribe style, where all components publish topics to a broker and subscribe to topics. Among the reasons for this choice, it can be listed SMCE constraints and time constraints(the course is short and learning the MQTT protocol is fairly simple). To distribute unique identifiers to each tank and app instance pair we had to emulate a client server architecture style to the tanks and app instances can “request ” a token and receive a token as answer to that request. It is not an actual client server architecture since it still is a communication based in publishing topics and subscribing to topics between the 2 components. 
+The software architecture style used in this project was the publish-subscribe style, where all components publish topics to a broker and subscribe to topics. Among the reasons for this choice, it can be listed SMCE constraints and time constraints(the course is short and learning the MQTT protocol is fairly simple). To distribute unique identifiers to each tank and app instance pair we had to emulate a client server architecture style to the tanks and app instances can “request” a token and receive a token as answer to that request. It is not an actual client server architecture since it still is a communication based in publishing topics and subscribing to topics between the 2 components. 
 
 **MQTT communication topics:**
 
