@@ -1,6 +1,6 @@
 ![Arduino Build Status](https://github.com/DIT113-V22/group-03/actions/workflows/arduino-build.yml/badge.svg)
 ![Android CI Status](https://github.com/DIT113-V22/group-03/actions/workflows/android-ci.yml/badge.svg)
-![Java CI with Maven](https://github.com/DIT113-V22/group-03/actions/workflows/android-ci.yml/badge.svg)
+![Java CI with Maven](https://github.com/DIT113-V22/group-03/actions/workflows/java-maven-ci.yml/badge.svg)
 
 # Group 3 - TankBattle
 
